@@ -25,13 +25,11 @@ const allAttendees = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAttendeeList.fulfilled, (state, { payload }) => {
-      // console.log(payload,"success")
       state.attendeeList = payload;
       state.errorMsg = ""
     });
     builder.addCase(getAttendeeList.rejected, (state, action) => {
-      // console.log(action,"failed")
-      state.attendeeList = payload;
+      state.attendeeList = [];
       state.errorMsg = "failed to load attendees"
     });
   },
