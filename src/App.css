@@ -1,0 +1,41 @@
+#root{
+    position: absolute;
+    bottom: 0;
+    height: 75vh;
+    right: 100px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.navigationTab{
+    display: flex;
+    justify-content: space-between;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.nav-tabs {
+  background: grey;
+  margin-bottom: 0 !important;
+}
+
+.nav-link {
+  border: none !important;
+}
+
+.nav-link.active {
+  background-color: rgb(87, 87, 87) !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
+
+.attendeeDiv{
+    background-color: whitesmoke;
+    overflow-y: scroll;
+    height: 69vh;
+}
+
+.attendeeDiv::-webkit-scrollbar {
+    display: none;
+}

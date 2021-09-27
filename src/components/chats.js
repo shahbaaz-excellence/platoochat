@@ -10,6 +10,7 @@ import chatTab from "../assets/chatTab.svg";
 import pollTab from "../assets/pollTab.svg";
 import qnaTab from "../assets/qnaTab.svg";
 import feedbackTab from "../assets/feedbackTab.svg";
+import "../App.css";
 
 const Chats = () => {
 
@@ -20,7 +21,7 @@ const Chats = () => {
         id="controlled-tab-example"
         activeKey={key}
         onSelect={(k) => setKey(k)}
-        style={{background:"grey", display:"flex", justifyContent:"space-between"}}
+        className={"navigationTab"}
       >
         <Tab eventKey="attendees" title={<><img src={attendeeTab} alt="attendees"/></>}>
           <Attendees />

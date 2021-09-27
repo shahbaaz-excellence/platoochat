@@ -1,73 +1,56 @@
 import React, { useState, useEffect } from "react";
 import attendee from "../assets/attendee.svg";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "../redux/store";
-import { getAttendeeList } from "../redux/slices/attendeeSlice";
-import InfiniteScroll from 'react-infinite-scroll-component';
+import { RealTimeDb } from "../config/firebaseConfig";
+import { subdomain } from "../constants/constants";
+import "../App.css";
 
 const Attendees = () => {
-  const dispatch = useAppDispatch();
-  const [items, setItems] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [attendeeList, setAttendeeList] = useState();
+  const [itemCount, setItemCount] = useState(10);
 
-  const attendeeList = useSelector((state) => state.allAttendees.attendeeList);
 
   useEffect(() => {
-    dispatch(getAttendeeList())
-  }, [])
-  useEffect(()=>{
-    if(attendeeList.length){
-      const newAttendeeList=attendeeList.slice(0,10)
-    setItems([...newAttendeeList])
+    getAllAttendees();
+  }, [itemCount])
 
-    }
-  },[attendeeList])
+  const getAllAttendees = () => {
+    RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).on("value", (snapshot) => {
+      let users = [];
+      snapshot.forEach((snap) => {
+        users.push({
+          name: snap.val().name || "untitled",
+          status: snap.val().status || "offline",
+        })
+      })
+      setAttendeeList(users);
+    })
+  }
 
-  const fetchData = () => {
-    if (items.length >= attendeeList.length) {
-      setHasMore(false);
-      return;
+  const loadMore = (e) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      setItemCount((itemCount) => itemCount + 10);
     }
-    setItems((prev)=>prev.concat(attendeeList.slice(prev.length,prev.length+10)))
-   
-  };
-  console.log(attendeeList, "attendeesfetched")
+  }
 
   return (
     <>
-      <div style={{ backgroundColor: "lightgrey" }}>
+      <div className="attendeeDiv" onScroll={(e)=>loadMore(e)}>
         <div style={{ padding: 10, borderBottom: "1px solid black", backgroundColor: "white" }}>
-          <span style={{}}>Attendees</span>
+          <span>Attendees</span>
         </div>
-
-        {/* {attendeeList.map((user, index) => (
+        {console.log(attendeeList, "aaaaaaaaaaa")}
+        {attendeeList?.map((user, index) => (
           <>
-            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+            <div key={index} style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
               <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
-                <img src={attendee} alt="attendee" />
-                <span style={{}}>{user.name}</span>
+                <img src={attendee} />
+                <span>{user.name}</span>
               </div>
               <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: "green", border: "1px solid white" }}></span>
             </div>
           </>
-        ))} */}
-
-        <InfiniteScroll
-          dataLength={items.length>0 && items.length} //This is important field to render the next data
-          next={fetchData}
-          hasMore={hasMore}
-          loader={<h4>Loading...</h4>}
-        >
-          <>
-            <div style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
-              <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
-                <img src={attendee} alt="attendee" />
-                <span style={{}}>name</span>
-              </div>
-              <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: "green", border: "1px solid white" }}></span>
-            </div>
-          </>
-        </InfiniteScroll>
+        ))}
       </div>
     </>
   );
