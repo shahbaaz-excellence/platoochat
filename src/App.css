@@ -5,7 +5,10 @@
     right: 100px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    border:1px solid whitesmoke;
 }
+
+/* //attendees// */
 
 .navigationTab{
     display: flex;
@@ -39,3 +42,5 @@
 .attendeeDiv::-webkit-scrollbar {
     display: none;
 }
+
+/* // myChats // */

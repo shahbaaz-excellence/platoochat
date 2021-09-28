@@ -39,7 +39,7 @@ const Attendees = () => {
         <div style={{ padding: 10, borderBottom: "1px solid black", backgroundColor: "white" }}>
           <span>Attendees</span>
         </div>
-        {console.log(attendeeList, "aaaaaaaaaaa")}
+        {/* {console.log(attendeeList, "aaaaaaaaaaa")} */}
         {attendeeList?.map((user, index) => (
           <>
             <div key={index} style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
@@ -47,7 +47,7 @@ const Attendees = () => {
                 <img src={attendee} />
                 <span>{user.name}</span>
               </div>
-              <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: "green", border: "1px solid white" }}></span>
+              <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: user.status=="online" ? "green":"red", border: "1px solid white" }}></span>
             </div>
           </>
         ))}
