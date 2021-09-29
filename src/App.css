@@ -1,11 +1,25 @@
 #root{
-    position: absolute;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+
+.chatWindowOpen{
+    position: fixed;
     bottom: 0;
     height: 75vh;
     right: 100px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
     border:1px solid whitesmoke;
+    transition: 0.5s;
+}
+
+.chatWindowClosed{
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  right: 100px;
+  transition: 0.5s;
+  /* border:1px solid whitesmoke; */
 }
 
 /* //attendees// */

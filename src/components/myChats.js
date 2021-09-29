@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import attendee from "../assets/attendee.svg";
-import { BsFillVolumeMuteFill } from 'react-icons/bs';
-import { VscUnmute } from 'react-icons/vsc';
 import { auth } from "../config/firebaseConfig";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
@@ -9,7 +6,8 @@ import PublicGroup from "./publicGroup";
 import AuditoriumChat from "./auditoriumChat";
 import HelpChat from "./helpChat";
 import ExhibitorChat from "./exhibitorChat";
-import groupImg from "../assets/group.svg";
+import PrivateChats from "./privateChats";
+import CustomGroupChats from "./customGroupChats";
 
 const MyChats = () => {
 
@@ -44,6 +42,7 @@ const MyChats = () => {
       recentMessages = recentMessages.sort(function (a, b) {
         return new Date(b.timestamp) - new Date(a.timestamp);
       });
+      // console.log(recentMessages,"iiiii")
       let recentUsers = recentMessages.map((value) => {
         let userinfo = userList.filter((val) => val.uid == value.uid);
         if (userinfo.length) {
@@ -64,20 +63,11 @@ const MyChats = () => {
           status: snap.val()?.status,
           name: snap.val()?.name,
           photoURL: snap.val()?.photoURL,
-          roomid: snap.val()?.roomid,
         })
       })
       setUserList(users);
     })
   }
-
-  const userRecentMsg = (user) => {
-    const recentMsg = myUserObject?.recentMessage[user?.uid]?.content.length > 20
-      ? myUserObject?.recentMessage[user?.uid]?.content?.slice(0, 20) + '...'
-      : myUserObject?.recentMessage[user?.uid]?.content;
-    return recentMsg;
-  }
-
 
   const handleTime = (user, isGroup) => {
 
@@ -143,23 +133,11 @@ const MyChats = () => {
     }
   };
 
-  const groupName = (group) => {
-    const grpName = myUserObject?.customGroup[group]?.name?.slice(0, 25)
-    return grpName || "Untitled Group";
-  }
-
-  const groupRecentMsg = (group) => {
-    const grpLastMsg = myUserObject?.customGroup[group]?.lastMessage?.content.length > 20
-      ? myUserObject?.customGroup[group]?.lastMessage?.content.slice(0, 25) + "..."
-      : myUserObject?.customGroup[group]?.lastMessage?.content
-    return grpLastMsg || "";
-  }
-
 
   return (
     <>
       <div className="attendeeDiv">
-        <div style={{ padding: 10, borderBottom: "1px solid black", backgroundColor: "white" }}>
+        <div style={{ padding: 10, borderBottom: "1px solid grey", backgroundColor: "white" }}>
           <span>My Chats</span>
         </div>
 
@@ -171,37 +149,17 @@ const MyChats = () => {
 
         {<ExhibitorChat />}
 
-        {customGroup?.map((group, index) => (
-          <>
-            <div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
-              <img src={groupImg} style={{ width: '40px', height: '40px', borderRadius: '5px', backgroundColor: 'rgb(58, 58, 58)', padding: '5px', margin: 5 }} />
-              <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-                <span style={{ color: "#696969" }}>{groupName(group)}</span>
-                <span style={{ color: "grey", fontSize: 14 }}>{groupRecentMsg(group)}</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-                <BsFillVolumeMuteFill color="	#00008B" />
-                <span style={{ color: "darkgrey", fontSize: 13 }}>{groupRecentMsg(group) ? handleTime(group, true) : ""}</span>
-              </div>
-            </div>
-          </>
-        ))}
+        <CustomGroupChats
+          customGroup={customGroup}
+          myUserObject={myUserObject}
+          handleTime={handleTime}
+        />
 
-        {myChats?.map((user, index) => (
-          <>
-            <div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
-              <img src={attendee} />
-              <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-                <span style={{ color: "#696969" }}>{user?.name}</span>
-                <span style={{ color: "grey", fontSize: 14 }}>{userRecentMsg(user)}</span>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-                <BsFillVolumeMuteFill color="	#00008B" />
-                <span style={{ color: "darkgrey", fontSize: 13 }}>{handleTime(user, false)}</span>
-              </div>
-            </div>
-          </>
-        ))}
+        <PrivateChats
+          myChats={myChats}
+          myUserObject={myUserObject}
+          handleTime={handleTime}
+        />
       </div>
     </>
   );

@@ -36,7 +36,7 @@ const Attendees = () => {
   return (
     <>
       <div className="attendeeDiv" onScroll={(e)=>loadMore(e)}>
-        <div style={{ padding: 10, borderBottom: "1px solid black", backgroundColor: "white" }}>
+        <div style={{ padding: 10, borderBottom: "1px solid grey", backgroundColor: "white" }}>
           <span>Attendees</span>
         </div>
         {/* {console.log(attendeeList, "aaaaaaaaaaa")} */}

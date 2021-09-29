@@ -20,10 +20,12 @@ const Chats = () => {
 
   return (
     <>
-      {chatWindow === true && <button onClick={() => setChatWindow(false)} style={{ position: "absolute", borderRadius: 8, paddingBottom: 3, right: -20, top: -30, border: "none", background: "red" }}>
-        <ImCross color="white" />
-      </button>}
-      <div style={chatWindow === true ? {transition: "0.5s" } : {transition: "0.5s" }}>
+      {chatWindow == true &&
+        <button onClick={() => setChatWindow(false)}
+          style={{ position: "absolute", borderRadius: 8, paddingBottom: 3, right: "78px", bottom: "75vh", border: "none", background: "red", cursor:"pointer" }}>
+          <ImCross color="white" />
+        </button>}
+      <div className={chatWindow === true ? "chatWindowOpen" : "chatWindowClosed"}>
         <Tabs
           id="controlled-tab-example"
           activeKey={key}
