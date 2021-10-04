@@ -4,7 +4,7 @@ import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
 import "../App.css";
 
-const Attendees = () => {
+const Attendees = ({messageScreen,setMessageScreen}) => {
   const [attendeeList, setAttendeeList] = useState();
   const [itemCount, setItemCount] = useState(10);
 

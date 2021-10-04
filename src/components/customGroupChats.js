@@ -3,7 +3,7 @@ import groupImg from "../assets/group.svg";
 import { BsFillVolumeMuteFill } from 'react-icons/bs';
 import { VscUnmute } from 'react-icons/vsc';
 
-const CustomGroupChats = ({customGroup,handleTime,myUserObject}) => {
+const CustomGroupChats = ({customGroup,handleTime,myUserObject,setMessageScreen}) => {
 
   const groupName = (group) => {
     const grpName = myUserObject?.customGroup[group]?.name?.slice(0, 25)
@@ -21,7 +21,7 @@ const CustomGroupChats = ({customGroup,handleTime,myUserObject}) => {
     <>
       {customGroup?.map((group, index) => (
         <>
-          <div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+          <div key={index} onClick={()=>setMessageScreen(true)} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
             <img src={groupImg} style={{ width: '40px', height: '40px', borderRadius: '5px', backgroundColor: 'rgb(58, 58, 58)', padding: '5px', margin: 5 }} />
             <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
               <span style={{ color: "#696969" }}>{groupName(group)}</span>

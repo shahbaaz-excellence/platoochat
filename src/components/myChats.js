@@ -8,13 +8,15 @@ import HelpChat from "./helpChat";
 import ExhibitorChat from "./exhibitorChat";
 import PrivateChats from "./privateChats";
 import CustomGroupChats from "./customGroupChats";
+import MessageScreen from "./messageScreen";
 
-const MyChats = () => {
+const MyChats = ({ setMessageScreen, messageScreen }) => {
 
   const [myChats, setMyChats] = useState([]);
   const [customGroup, setCustomGroup] = useState([]);
   const [userList, setUserList] = useState([]);
-  const [myUserObject, setMyUserObject] = useState();
+  const [myUserObject, setMyUserObject] = useState(false);
+  // const [] = useState();
 
   const { uid } = auth.currentUser;
 
@@ -136,31 +138,38 @@ const MyChats = () => {
 
   return (
     <>
-      <div className="attendeeDiv">
+      {messageScreen === false ? <div className="attendeeDiv">
         <div style={{ padding: 10, borderBottom: "1px solid grey", backgroundColor: "white" }}>
           <span>My Chats</span>
         </div>
 
-        {<PublicGroup />}
+        {<PublicGroup setMessageScreen={setMessageScreen} />}
 
-        {<AuditoriumChat />}
+        {<AuditoriumChat setMessageScreen={setMessageScreen} />}
 
-        {<HelpChat />}
+        {<HelpChat setMessageScreen={setMessageScreen} />}
 
-        {<ExhibitorChat />}
+        {<ExhibitorChat setMessageScreen={setMessageScreen} />}
 
         <CustomGroupChats
           customGroup={customGroup}
           myUserObject={myUserObject}
           handleTime={handleTime}
+          setMessageScreen={setMessageScreen}
         />
 
         <PrivateChats
           myChats={myChats}
           myUserObject={myUserObject}
           handleTime={handleTime}
+          setMessageScreen={setMessageScreen}
         />
-      </div>
+
+
+      </div> :
+        <MessageScreen
+          setMessageScreen={setMessageScreen}
+        />}
     </>
   );
 }

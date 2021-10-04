@@ -8,8 +8,11 @@
     position: fixed;
     bottom: 0;
     height: 75vh;
+    width: 375px;
     right: 100px;
-    border:1px solid whitesmoke;
+    border:1px solid lightgrey;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
     transition: 0.5s;
 }
 
@@ -57,4 +60,31 @@
     display: none;
 }
 
-/* // myChats // */
+/* // chatMessages // */
+
+.chatMessageDiv {
+  overflow-y: scroll;
+  height: calc(65vh - 40px);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chatMessageDiv::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.chatMessageDiv {
+  -ms-overflow-style: none;
+}
+
+.receiver {
+  /* background-color: darkseagreen; */
+  display: flex;
+  justify-content: left;
+}
+
+.sender {
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: right;
+}

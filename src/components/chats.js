@@ -17,6 +17,7 @@ const Chats = () => {
 
   const [key, setKey] = useState();
   const [chatWindow, setChatWindow] = useState(false);
+  const [messageScreen, setMessageScreen] = useState(false);
 
   return (
     <>
@@ -33,10 +34,10 @@ const Chats = () => {
           className={"navigationTab"}
         >
           <Tab eventKey="attendees" title={<><img src={attendeeTab} alt="attendees" /></>}>
-            <Attendees />
+            <Attendees setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
           <Tab eventKey="myChats" title={<><img src={chatTab} alt="chats" /></>}>
-            <MyChats />
+            <MyChats setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
           <Tab eventKey="poll" title={<><img src={pollTab} alt="polls" /></>}>
             <Poll />
