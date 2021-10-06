@@ -7,7 +7,7 @@ import { ImPhoneHangUp } from 'react-icons/im';
 import { FaWhatsapp } from 'react-icons/fa';
 import { AiOutlineIdcard } from 'react-icons/ai';
 
-const TopNavBar = ({setMessageScreen}) => {
+const TopNavBar = ({ setMessageScreen, attendeeDetails }) => {
   return (
     <>
       <div style={{ display: "flex", justifyContent: "space-between", padding: 2, borderBottom: "1px solid grey", backgroundColor: "white", alignItems: "center" }}>
@@ -16,8 +16,8 @@ const TopNavBar = ({setMessageScreen}) => {
             <BsChevronLeft style={{ stroke: "black", strokeWidth: "2" }} onClick={() => setMessageScreen(false)} />
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ marginLeft: 10 }}>Name</span>
-            <span style={{ marginLeft: 10, fontSize: 13, color: "grey", marginTop: "-4px" }}>online</span>
+            <span style={{ marginLeft: 10 }}>{attendeeDetails?.name}</span>
+            <span style={{ marginLeft: 10, fontSize: 13, color: "grey", marginTop: "-4px" }}>{attendeeDetails?.status === "online" ? "Online" : "Away"}</span>
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "row" }}>

@@ -20,6 +20,7 @@
   position: fixed;
   bottom: 0;
   height: 50px;
+  width: 375px;
   right: 100px;
   transition: 0.5s;
   /* border:1px solid whitesmoke; */

@@ -22,7 +22,7 @@ const Chats = () => {
   return (
     <>
       {chatWindow == true &&
-        <button onClick={() => setChatWindow(false)}
+        <button onClick={() => {setChatWindow(false);setMessageScreen(false)}}
           style={{ position: "absolute", borderRadius: 8, paddingBottom: 3, right: "78px", bottom: "75vh", border: "none", background: "red", cursor:"pointer" }}>
           <ImCross color="white" />
         </button>}

@@ -39,7 +39,11 @@ const ChatMessage = () => {
       <div className="chatMessageDiv">
         {chats.map((val, index) => (
           <div key={index} className={val.sender === "me" ? "sender" : "receiver"}>
-            <span style={{}}>{val.message}</span>
+            <span style={val.sender === "me" ?
+              { background: "#d3d3d3", padding: 5, marginRight: 8, marginLeft: 40, marginTop: 5, marginBottom: 5, borderRadius: 5 }
+              : { background: "#fca605", padding: 5, marginLeft: 8, marginRight: 40, marginTop: 5, marginBottom: 5, borderRadius: 5 }}>
+              {val.message}
+            </span>
           </div>
         ))}
       </div>

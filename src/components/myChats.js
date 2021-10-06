@@ -16,7 +16,10 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
   const [customGroup, setCustomGroup] = useState([]);
   const [userList, setUserList] = useState([]);
   const [myUserObject, setMyUserObject] = useState(false);
-  // const [] = useState();
+  const [userDetails, setUserDetails] = useState({
+    name: "",
+    status: "",
+  });
 
   const { uid } = auth.currentUser;
 
@@ -163,12 +166,13 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
           myUserObject={myUserObject}
           handleTime={handleTime}
           setMessageScreen={setMessageScreen}
+          setUserDetails={setUserDetails}
         />
-
 
       </div> :
         <MessageScreen
           setMessageScreen={setMessageScreen}
+          attendeeDetails={userDetails}
         />}
     </>
   );
