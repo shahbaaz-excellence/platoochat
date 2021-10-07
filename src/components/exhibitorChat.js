@@ -17,16 +17,16 @@ const ExhibitorChat = () => {
         localStorage.getItem("exhibition_id")
       )}`
     ).limitToLast(1).on("value", (snapshot) => {
-        let chat = [];
-        snapshot.forEach((snap) => {
-          let data = {
-            ...snap.val(),
-            key: snap.key,
-          };
-          chat.push(data);
-        });
-        setExhibitorChatMsg(chat);
+      let chat = [];
+      snapshot.forEach((snap) => {
+        let data = {
+          ...snap.val(),
+          key: snap.key,
+        };
+        chat.push(data);
       });
+      setExhibitorChatMsg(chat);
+    });
   }
 
   const recentMsg = () => {
@@ -41,9 +41,9 @@ const ExhibitorChat = () => {
   return (
     <>
       <div style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
-        <img src={groupImg} style={{ width: '40px', height: '40px', borderRadius: '5px', backgroundColor: 'rgb(58, 58, 58)', padding: '5px', margin: 5 }} />
-        <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
-          <span style={{ color: "#696969" }}>Exhibitor Chat</span>
+        <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
+        <div style={{ display: "flex", flexDirection: "column", flex: 1, marginLeft: 30 }}>
+          <span style={{ color: "#5B5B5B" }}>Exhibitor Chat</span>
           <span style={{ color: "grey", fontSize: 14 }}>{recentMsg()}</span>
         </div>
       </div>

@@ -1,9 +1,8 @@
 import React from "react";
 import groupImg from "../assets/group.svg";
-import { BsFillVolumeMuteFill } from 'react-icons/bs';
-import { VscUnmute } from 'react-icons/vsc';
+import volume from "../assets/volume.svg";
 
-const CustomGroupChats = ({customGroup,handleTime,myUserObject,setMessageScreen}) => {
+const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScreen }) => {
 
   const groupName = (group) => {
     const grpName = myUserObject?.customGroup[group]?.name?.slice(0, 25)
@@ -21,15 +20,15 @@ const CustomGroupChats = ({customGroup,handleTime,myUserObject,setMessageScreen}
     <>
       {customGroup?.map((group, index) => (
         <>
-          <div key={index} onClick={()=>setMessageScreen(true)} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
-            <img src={groupImg} style={{ width: '40px', height: '40px', borderRadius: '5px', backgroundColor: 'rgb(58, 58, 58)', padding: '5px', margin: 5 }} />
-            <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
-              <span style={{ color: "#696969" }}>{groupName(group)}</span>
+          <div key={index} onClick={() => setMessageScreen(true)} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+            <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
+            <div style={{ display: "flex", flex: 1, flexDirection: "column", marginLeft: 30 }}>
+              <span style={{ color: "#5B5B5B" }}>{groupName(group)}</span>
               <span style={{ color: "grey", fontSize: 14 }}>{groupRecentMsg(group)}</span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-              <BsFillVolumeMuteFill color="	#00008B" />
-              <span style={{ color: "darkgrey", fontSize: 13 }}>{groupRecentMsg(group) ? handleTime(group, true) : ""}</span>
+              <img src={volume} />
+              <span style={{ color: "#5B5B5B", fontSize: 12 }}>{groupRecentMsg(group) ? handleTime(group, true) : ""}</span>
             </div>
           </div>
         </>

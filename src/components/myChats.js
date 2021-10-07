@@ -9,6 +9,7 @@ import ExhibitorChat from "./exhibitorChat";
 import PrivateChats from "./privateChats";
 import CustomGroupChats from "./customGroupChats";
 import MessageScreen from "./messageScreen";
+import plus from "../assets/plus.svg";
 
 const MyChats = ({ setMessageScreen, messageScreen }) => {
 
@@ -142,8 +143,12 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
   return (
     <>
       {messageScreen === false ? <div className="attendeeDiv">
-        <div style={{ padding: 10, borderBottom: "1px solid grey", backgroundColor: "white" }}>
-          <span>My Chats</span>
+        <div style={{ padding: 10, backgroundColor: "white" }}>
+          <span style={{ color: "#5B5B5B", fontSize: 18, fontWeight: 500 }}>My Chats</span>
+        </div>
+        <div style={{ padding: 5, backgroundColor: "white", marginTop: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+          <span style={{ color: "#5B5B5B", fontSize: 12, fontWeight: 500 }}>Create a New Group</span>
+          <img src={plus} alt="add" style={{ marginLeft: 10 }} />
         </div>
 
         {<PublicGroup setMessageScreen={setMessageScreen} />}

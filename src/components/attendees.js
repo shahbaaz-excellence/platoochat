@@ -52,16 +52,16 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
   return (
     <>
       {messageScreen === false ? <div className="attendeeDiv" onScroll={(e) => loadMore(e)}>
-        <div style={{ padding: 10, borderBottom: "1px solid grey", backgroundColor: "white" }}>
-          <span>Attendees</span>
+        <div style={{ padding: 10, backgroundColor: "white", boxShadow: ".2rem rgba(0,0,0,.15)" }}>
+          <span style={{ color: "#5B5B5B", fontSize: 18, fontWeight: 500 }}>Attendees</span>
         </div>
         {/* {console.log(attendeeList, "aaaaaaaaaaa")} */}
         {attendeeList?.map((user, index) => (
           <>
-            <div key={index} onClick={() => getAttendeeDetails(user.name, user.status, user.lastSeen)} style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+            <div key={index} onClick={() => getAttendeeDetails(user.name, user.status, user.lastSeen)} style={{ display: "flex", flexDirection: "row", margin: 15, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", alignItems: "center", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
               <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
-                <img src={attendee} />
-                <span>{user.name}</span>
+                <img src={attendee} style={{ borderRadius: "50%", height: 40, width: 40, objectFit: "none" }} />
+                <span style={{ color: "#5B5B5B", fontSize: 18, marginLeft: 30 }}>{user.name}</span>
               </div>
               <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: user.status == "online" ? "green" : "red", border: "1px solid white" }}></span>
             </div>

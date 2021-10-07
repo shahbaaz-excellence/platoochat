@@ -6,10 +6,14 @@ import Poll from "./poll";
 import QNA from "./qna";
 import Feedback from "./feedback";
 import attendeeTab from "../assets/attendeeTab.svg";
+import attendeeLightTab from "../assets/attendeeLightTab.svg";
 import chatTab from "../assets/chatTab.svg";
 import pollTab from "../assets/pollTab.svg";
+import pollLightTab from "../assets/pollLightTab.svg";
 import qnaTab from "../assets/qnaTab.svg";
+import qnaLightTab from "../assets/qnaLightTab.svg";
 import feedbackTab from "../assets/feedbackTab.svg";
+import feedbackLightTab from "../assets/feedbackLightTab.svg";
 import { ImCross } from 'react-icons/im';
 import "../App.css";
 
@@ -22,8 +26,8 @@ const Chats = () => {
   return (
     <>
       {chatWindow == true &&
-        <button onClick={() => {setChatWindow(false);setMessageScreen(false)}}
-          style={{ position: "absolute", borderRadius: 8, paddingBottom: 3, right: "78px", bottom: "75vh", border: "none", background: "red", cursor:"pointer" }}>
+        <button onClick={() => { setChatWindow(false); setMessageScreen(false) }}
+          style={{ position: "absolute", borderRadius: 8, paddingBottom: 3, right: "78px", bottom: "75vh", border: "none", background: "red", cursor: "pointer" }}>
           <ImCross color="white" />
         </button>}
       <div className={chatWindow === true ? "chatWindowOpen" : "chatWindowClosed"}>
@@ -33,19 +37,19 @@ const Chats = () => {
           onSelect={(k) => { setKey(k); setChatWindow(true) }}
           className={"navigationTab"}
         >
-          <Tab eventKey="attendees" title={<><img src={attendeeTab} alt="attendees" /></>}>
+          <Tab eventKey="attendees" title={<><img src={key == "attendees" ? attendeeLightTab : attendeeTab} alt="attendees" /></>}>
             <Attendees setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
           <Tab eventKey="myChats" title={<><img src={chatTab} alt="chats" /></>}>
             <MyChats setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
-          <Tab eventKey="poll" title={<><img src={pollTab} alt="polls" /></>}>
+          <Tab eventKey="poll" title={<><img src={key == "poll" ? pollLightTab : pollTab} alt="polls" /></>}>
             <Poll />
           </Tab>
-          <Tab eventKey="qna" title={<><img src={qnaTab} alt="qna" /></>}>
+          <Tab eventKey="qna" title={<><img src={key == "qna" ? qnaLightTab : qnaTab} alt="qna" /></>}>
             <QNA />
           </Tab>
-          <Tab eventKey="feedback" title={<><img src={feedbackTab} alt="feedback" /></>}>
+          <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
             <Feedback />
           </Tab>
         </Tabs>
