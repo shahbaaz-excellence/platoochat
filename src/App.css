@@ -79,7 +79,10 @@
 
 .chatMessageDiv {
   overflow-y: scroll;
-  height: calc(65vh - 40px);
+  height: 59vh;
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

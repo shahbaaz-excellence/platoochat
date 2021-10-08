@@ -20,7 +20,7 @@ const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScr
     <>
       {customGroup?.map((group, index) => (
         <>
-          <div key={index} onClick={() => setMessageScreen(true)} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+          <div key={index} onClick={() => setMessageScreen(true)} style={{ display: "flex", flexDirection: "row", alignItems: "center", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
             <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
             <div style={{ display: "flex", flex: 1, flexDirection: "column", marginLeft: 30 }}>
               <span style={{ color: "#5B5B5B" }}>{groupName(group)}</span>

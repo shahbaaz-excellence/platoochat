@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import attendee from "../assets/attendee.svg";
+import attendee from "../assets/attendee.png";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
 import MessageScreen from "./messageScreen";
@@ -60,7 +60,7 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
           <>
             <div key={index} onClick={() => getAttendeeDetails(user.name, user.status, user.lastSeen)} style={{ display: "flex", flexDirection: "row", margin: 15, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", alignItems: "center", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
               <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
-                <img src={attendee} style={{ borderRadius: "50%", height: 40, width: 40, objectFit: "none" }} />
+                <img src={attendee} style={{ borderRadius: "50%", height: 40, width: 40, objectFit: "none", margin: "5px" }} />
                 <span style={{ color: "#5B5B5B", fontSize: 18, marginLeft: 30 }}>{user.name}</span>
               </div>
               <span style={{ height: 15, width: 15, borderRadius: "50%", backgroundColor: user.status == "online" ? "green" : "red", border: "1px solid white" }}></span>

@@ -20,6 +20,8 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
   const [userDetails, setUserDetails] = useState({
     name: "",
     status: "",
+    roomId: "",
+    type: "",
   });
 
   const { uid } = auth.currentUser;
@@ -151,19 +153,36 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
           <img src={plus} alt="add" style={{ marginLeft: 10 }} />
         </div>
 
-        {<PublicGroup setMessageScreen={setMessageScreen} />}
+        {<PublicGroup
+          setMessageScreen={setMessageScreen}
+          setUserDetails={setUserDetails}
+          userDetails={userDetails}
+        />}
 
-        {<AuditoriumChat setMessageScreen={setMessageScreen} />}
+        {<AuditoriumChat
+          setMessageScreen={setMessageScreen}
+          setUserDetails={setUserDetails}
+          userDetails={userDetails}
+        />}
 
-        {<HelpChat setMessageScreen={setMessageScreen} />}
+        {<HelpChat
+          setMessageScreen={setMessageScreen}
+          setUserDetails={setUserDetails}
+          userDetails={userDetails}
+        />}
 
-        {<ExhibitorChat setMessageScreen={setMessageScreen} />}
+        {<ExhibitorChat
+          setMessageScreen={setMessageScreen}
+          setUserDetails={setUserDetails}
+          userDetails={userDetails}
+        />}
 
         <CustomGroupChats
           customGroup={customGroup}
           myUserObject={myUserObject}
           handleTime={handleTime}
           setMessageScreen={setMessageScreen}
+          userDetails={userDetails}
         />
 
         <PrivateChats
@@ -177,7 +196,7 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
       </div> :
         <MessageScreen
           setMessageScreen={setMessageScreen}
-          attendeeDetails={userDetails}
+          userDetails={userDetails}
         />}
     </>
   );

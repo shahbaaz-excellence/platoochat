@@ -23,6 +23,10 @@ const Chats = () => {
   const [chatWindow, setChatWindow] = useState(false);
   const [messageScreen, setMessageScreen] = useState(false);
 
+  useEffect(() => {
+    setMessageScreen(false);
+  }, [key])
+
   return (
     <>
       {chatWindow == true &&

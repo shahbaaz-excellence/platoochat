@@ -3,15 +3,18 @@ import TopNavBar from "./topNavbar";
 import ChatMessage from "./chatMessage";
 import InputChat from "./inputChat";
 
-const MessageScreen = ({ setMessageScreen, attendeeDetails }) => {
+const MessageScreen = ({ setMessageScreen, userDetails }) => {
   return (
     <>
       <div style={{ display: "flex", flexDirection: "column" }}>
 
-        <TopNavBar setMessageScreen={setMessageScreen} attendeeDetails={attendeeDetails} />
+        <TopNavBar
+          setMessageScreen={setMessageScreen}
+          userDetails={userDetails}
+        />
 
-        <div style={{ display: "flex", flexDirection: "column", minHeight: "65vh" }}>
-          <ChatMessage />
+        <div style={{ display: "flex", flexDirection: "column", minHeight: "64vh" }}>
+          <ChatMessage userDetails={userDetails} />
           <InputChat />
         </div>
       </div>

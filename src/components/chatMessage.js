@@ -1,48 +1,47 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { FaSnapchat } from "react-icons/fa";
+import { auth } from "../config/firebaseConfig";
+import { RealTimeDb } from "../config/firebaseConfig";
+import { subdomain } from "../constants/constants";
 
-const ChatMessage = () => {
+const ChatMessage = ({ userDetails }) => {
 
-  // const { uid } = auth.currentUser;
+  const { uid } = auth.currentUser;
+  const [chatMessages, setChatMessages] = useState([]);
+  const [messageCount, setMessageCount] = useState(20);
 
-  const chats = [
-    { message: "Hi", sender: "me" },
-    { message: "Hello", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "dfhfgh ghfghfg", sender: "me" },
-    { message: "Hi", sender: "me" },
-    { message: "Hello", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "dfhfgh ghfghfg", sender: "me" },
-    { message: "Hi", sender: "me" },
-    { message: "Hello", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "dfhfgh ghfghfg", sender: "me" },
-    { message: "Hi", sender: "me" },
-    { message: "Hello", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "dfhfgh ghfghfg", sender: "me" },
-    { message: "Hi", sender: "me" },
-    { message: "Hello", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "How are u doing", sender: "me" },
-    { message: "I am doing great", sender: "you" },
-    { message: "dfhfgh ghfghfggfh fghgjhgj fgh gfh gfh ghj ej jegh rfhf ghfg hgfj j tyrter t j jghght ghgg thghg jhjhjjky jweyrtu g ujnghmghmgh ytyukiuo jjk", sender: "me" },
-    { message: "dfhfgh ghfghfggfh fghgjhgj fgh gfh gfh ghj ej jegh rfhf ghfg hgfj j tyrter t j jghght ghgg thghg jhjhjjky jweyrtu g ujnghmghmgh ytyukiuo jjk", sender: "you" },
-  ]
+  useEffect(()=>{
+    if(userDetails && userDetails?.roomId && uid){
+      getMessages(userDetails.roomId)
+    }
+  },[messageCount])
+
+  const getMessages = (roomId) => {
+    RealTimeDb.ref(`chats/${subdomain}/${roomId}`).limitToLast(messageCount).on("value", (snapshot) => {
+      let msg = [];
+      snapshot.forEach((snap) => {
+        msg.push(snap.val())
+      })
+      setChatMessages(msg);
+    })
+  }
+
+  const loadMore = (e) => {
+    const top =  e.target.scrollTop + e.target.scrollHeight === e.target.clientHeight;
+    if (top) {
+      setMessageCount((messageCount) => messageCount + 20);
+    }
+  }
+
   return (
     <>
-      <div className="chatMessageDiv">
-        {chats.map((val, index) => (
-          <div key={index} className={val.sender === "me" ? "sender" : "receiver"}>
-            <span style={val.sender === "me" ?
-              { background: "#d3d3d3", padding: 5, marginRight: 8, marginLeft: 40, marginTop: 5, marginBottom: 5, borderRadius: 5 }
-              : { background: "#fca605", padding: 5, marginLeft: 8, marginRight: 40, marginTop: 5, marginBottom: 5, borderRadius: 5 }}>
-              {val.message}
+      <div className="chatMessageDiv" onScroll={(e) => loadMore(e)}>
+        {chatMessages?.slice(0).reverse().map((val, index) => (
+          <div key={index} className={val.sender === uid ? "sender" : "receiver"}>
+            <span style={val.sender === uid ?
+              { fontSize: 13, fontWeight: 400, background: "white", padding: 8, marginRight: 10, marginLeft: 40, marginTop: 5, marginBottom: 5, borderRadius: 5, boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }
+              : { fontSize: 13, fontWeight: 400, background: "white", padding: 8, marginLeft: 10, marginRight: 40, marginTop: 5, marginBottom: 5, borderRadius: 5, boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
+              {val.content}
             </span>
           </div>
         ))}

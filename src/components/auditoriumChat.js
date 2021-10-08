@@ -38,7 +38,7 @@ const AuditoriumChat = () => {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white" }}>
+      <div style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
         <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
         <div style={{ display: "flex", flexDirection: "column", flex: 1, marginLeft: 30 }}>
           <span style={{ color: "#5B5B5B" }}>Auditorium Chat</span>

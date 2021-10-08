@@ -6,34 +6,44 @@ import { MdInfo } from "react-icons/md";
 import { ImPhoneHangUp } from 'react-icons/im';
 import { FaWhatsapp } from 'react-icons/fa';
 import { AiOutlineIdcard } from 'react-icons/ai';
+import attendee from "../assets/attendee.png";
+import videoCall from "../assets/videoCall.svg";
+import visitingCard from "../assets/visitingCard.svg";
+import call from "../assets/call.svg";
 
-const TopNavBar = ({ setMessageScreen, attendeeDetails }) => {
+const TopNavBar = ({ setMessageScreen, userDetails }) => {
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "space-between", padding: 2, borderBottom: "1px solid grey", backgroundColor: "white", alignItems: "center" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", padding: 5, backgroundColor: "white", alignItems: "center" }}>
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-          <div style={{ height: 30, width: 30, borderRadius: "50%", backgroundColor: "lightgrey", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
-            <BsChevronLeft style={{ stroke: "black", strokeWidth: "2" }} onClick={() => setMessageScreen(false)} />
+          <div style={{ height: 40, width: 25, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+            <BsChevronLeft style={{ stroke: "#5B5B5B", strokeWidth: "2" }} onClick={() => setMessageScreen(false)} />
           </div>
+          <img src={attendee} style={{ borderRadius: "50%", height: 40, width: 40, objectFit: "none" }} />
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <span style={{ marginLeft: 10 }}>{attendeeDetails?.name}</span>
-            <span style={{ marginLeft: 10, fontSize: 13, color: "grey", marginTop: "-4px" }}>{attendeeDetails?.status === "online" ? "Online" : "Away"}</span>
+            <span style={{ marginLeft: 10, color: "#5B5B5B", fontWeight: 500 }}>{userDetails?.name}</span>
+            {userDetails?.type != "publicGroup" &&
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <span style={{ marginLeft: 10, height: 12, width: 12, borderRadius: "50%", backgroundColor: userDetails?.status == "online" ? "green" : "red", border: "1px solid white" }}></span>
+                <span style={{ marginLeft: 5, fontSize: 13, color: "#5B5B5B", marginTop: "-4px" }}>{userDetails?.status === "online" ? "Active Now" : "Away"}</span>
+              </div>}
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div style={{ height: 30, width: 30, borderRadius: "50%", marginRight: 5, backgroundColor: "lightgrey", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
-            <AiOutlineIdcard style={{ stroke: "black", strokeWidth: "2" }} />
-          </div>
-          <div style={{ height: 30, width: 30, borderRadius: "50%", marginRight: 5, backgroundColor: "lightgrey", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+        {userDetails?.type != "publicGroup" &&
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div style={{ height: 30, width: 30, marginRight: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+              <img src={visitingCard} alt="visiting card" />
+            </div>
+            {/* <div style={{ height: 30, width: 30, marginRight: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
             <FaWhatsapp style={{ stroke: "black", strokeWidth: "2" }} />
-          </div>
-          <div style={{ height: 30, width: 30, borderRadius: "50%", marginRight: 5, backgroundColor: "lightgrey", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
-            <MdCall style={{ stroke: "black", strokeWidth: "2" }} />
-          </div>
-          <div style={{ height: 30, width: 30, borderRadius: "50%", marginRight: 5, backgroundColor: "lightgrey", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
-            <FiVideo style={{ stroke: "black", strokeWidth: "2" }} />
-          </div>
-        </div>
+          </div> */}
+            <div style={{ height: 30, width: 30, marginRight: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+              <img src={call} alt="audio call" />
+            </div>
+            <div style={{ height: 30, width: 30, marginRight: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+              <img src={videoCall} alt="video call" />
+            </div>
+          </div>}
       </div>
     </>
   );
