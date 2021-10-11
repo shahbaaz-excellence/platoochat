@@ -3,7 +3,7 @@ import groupImg from "../assets/group.svg";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
 
-const HelpChat = () => {
+const HelpChat = ({ setMessageScreen, setUserDetails, userDetails }) => {
 
   const [helpChatMsg, sethelpChatMsg] = useState([]);
 
@@ -36,9 +36,19 @@ const HelpChat = () => {
     }
   }
 
+  const handleHelpChat = () => {
+    setUserDetails({
+      ...userDetails,
+      name: "Help Chat",
+      roomId: `helpDeskGroup`,
+      type: "helpDeskGroup",
+    })
+    setMessageScreen(true)
+  }
+
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
+      <div onClick={() => handleHelpChat()} style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
         <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
         <div style={{ display: "flex", flexDirection: "column", flex: 1, marginLeft: 30 }}>
           <span style={{ color: "#5B5B5B" }}>Help Chat</span>

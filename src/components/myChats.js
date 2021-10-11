@@ -27,53 +27,28 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
   const { uid } = auth.currentUser;
 
   useEffect(() => {
-    getAllUserUid();
-  }, [])
-
-  useEffect(() => {
-    if (userList && userList.length) {
-      getRecentMessages();
+    if (uid) {
+    getRecentMessages();
     }
-  }, [userList])
+  }, [])
 
   const getRecentMessages = () => {
     RealTimeDb.ref(`users/${subdomain}/`).orderByChild("uid").equalTo(`${uid}`).on("value", (snapshot) => {
       const myUserObj = snapshot.val()[uid];
       setMyUserObject(myUserObj);
-      let recentMessagesUser = myUserObj?.recentMessage ? Object.keys(myUserObj?.recentMessage) : [];
-      recentMessagesUser = recentMessagesUser.filter(val => val != 'group')
-      let recentMessages = myUserObj?.recentMessage ? recentMessagesUser.map(val => {
-        let data = myUserObj?.recentMessage[val];
-        data['uid'] = val;
-        return data;
-      }) : [];
-      recentMessages = recentMessages.sort(function (a, b) {
-        return new Date(b.timestamp) - new Date(a.timestamp);
-      });
-      // console.log(recentMessages,"iiiii")
-      let recentUsers = recentMessages.map((value) => {
-        let userinfo = userList.filter((val) => val.uid == value.uid);
-        if (userinfo.length) {
-          return userinfo[0];
-        }
-      })
-      setMyChats(recentUsers)
-      myUserObj?.customGroup && setCustomGroup(Object.keys(myUserObj?.customGroup));
-    })
-  }
-
-  const getAllUserUid = () => {
-    RealTimeDb.ref(`users/${subdomain}/`).on("value", (snapshot) => {
-      let users = [];
-      snapshot.forEach((snap) => {
-        users.push({
-          uid: snap.val()?.uid,
-          status: snap.val()?.status,
-          name: snap.val()?.name,
-          photoURL: snap.val()?.photoURL,
+      let recentMessageUser = [];
+      RealTimeDb.ref(`users/${subdomain}/${uid}/recentMessage/`).on("value", (snapshot) => {
+        snapshot.forEach((snap) => {
+          recentMessageUser.push(snap.val())
         })
+        recentMessageUser = recentMessageUser?.sort(function (a, b) {
+          return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+        let recentUsers = recentMessageUser.filter(val => val.recipient != 'group')
+        // console.log(recentUsers, "iiiii")
+        setMyChats(recentUsers)
       })
-      setUserList(users);
+      myUserObj?.customGroup && setCustomGroup(Object.keys(myUserObj?.customGroup));
     })
   }
 
@@ -183,6 +158,7 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
           handleTime={handleTime}
           setMessageScreen={setMessageScreen}
           userDetails={userDetails}
+          setUserDetails={setUserDetails}
         />
 
         <PrivateChats
@@ -190,6 +166,7 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
           myUserObject={myUserObject}
           handleTime={handleTime}
           setMessageScreen={setMessageScreen}
+          userDetails={userDetails}
           setUserDetails={setUserDetails}
         />
 

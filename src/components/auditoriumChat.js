@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import groupImg from "../assets/group.svg";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
+import { auditorium_id } from "../constants/constants";
 
-const AuditoriumChat = () => {
+const AuditoriumChat = ({ setMessageScreen, setUserDetails, userDetails }) => {
 
   const [lastAudGroupMsg, setLastAudGroupMsg] = useState([]);
 
@@ -13,7 +14,7 @@ const AuditoriumChat = () => {
 
   const getAuditoriumLastmsg = () => {
     RealTimeDb.ref(
-      `chats/${subdomain}/AUDI_${JSON.parse(localStorage.getItem("auditorium_id"))}`)
+      `chats/${subdomain}/AUDI_${auditorium_id}`)
       .limitToLast(1).on("value", (snapshot) => {
         let chat = [];
         snapshot.forEach((snap) => {
@@ -36,9 +37,19 @@ const AuditoriumChat = () => {
     }
   }
 
+  const handleAuditoriumGroup = () => {
+    setUserDetails({
+      ...userDetails,
+      name: "Auditorium Group",
+      roomId: `AUDI_${auditorium_id}`,
+      type: "auditoriumGroup",
+    })
+    setMessageScreen(true)
+  }
+
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
+      <div onClick={() => handleAuditoriumGroup()} style={{ display: "flex", flexDirection: "row", margin: 10, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
         <img src={groupImg} style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: 'rgb(58, 58, 58)', padding: '7px', margin: 5 }} />
         <div style={{ display: "flex", flexDirection: "column", flex: 1, marginLeft: 30 }}>
           <span style={{ color: "#5B5B5B" }}>Auditorium Chat</span>
