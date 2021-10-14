@@ -8,6 +8,7 @@ import Feedback from "./feedback";
 import attendeeTab from "../assets/attendeeTab.svg";
 import attendeeLightTab from "../assets/attendeeLightTab.svg";
 import chatTab from "../assets/chatTab.svg";
+import chatLightTab from "../assets/chatLightTab.png";
 import pollTab from "../assets/pollTab.svg";
 import pollLightTab from "../assets/pollLightTab.svg";
 import qnaTab from "../assets/qnaTab.svg";
@@ -19,7 +20,7 @@ import "../App.css";
 
 const Chats = () => {
 
-  const [key, setKey] = useState();
+  const [key, setKey] = useState("attendees");
   const [chatWindow, setChatWindow] = useState(false);
   const [messageScreen, setMessageScreen] = useState(false);
 
@@ -44,7 +45,7 @@ const Chats = () => {
           <Tab eventKey="attendees" title={<><img src={key == "attendees" ? attendeeLightTab : attendeeTab} alt="attendees" /></>}>
             <Attendees setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
-          <Tab eventKey="myChats" title={<><img src={chatTab} alt="chats" /></>}>
+          <Tab eventKey="myChats" title={<><img src={key == "myChats" ? chatLightTab : chatTab} alt="chats" /></>}>
             <MyChats setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
           </Tab>
           <Tab eventKey="poll" title={<><img src={key == "poll" ? pollLightTab : pollTab} alt="polls" /></>}>

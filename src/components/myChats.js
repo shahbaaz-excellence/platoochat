@@ -10,12 +10,13 @@ import PrivateChats from "./privateChats";
 import CustomGroupChats from "./customGroupChats";
 import MessageScreen from "./messageScreen";
 import plus from "../assets/plus.svg";
+import UserList from "./userList";
 
 const MyChats = ({ setMessageScreen, messageScreen }) => {
 
   const [myChats, setMyChats] = useState([]);
   const [customGroup, setCustomGroup] = useState([]);
-  const [userList, setUserList] = useState([]);
+  const [userListView, setUserListView] = useState(false);
   const [myUserObject, setMyUserObject] = useState(false);
   const [userDetails, setUserDetails] = useState({
     name: "",
@@ -28,7 +29,7 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
 
   useEffect(() => {
     if (uid) {
-    getRecentMessages();
+      getRecentMessages();
     }
   }, [])
 
@@ -119,59 +120,63 @@ const MyChats = ({ setMessageScreen, messageScreen }) => {
 
   return (
     <>
-      {messageScreen === false ? <div className="attendeeDiv">
-        <div style={{ padding: 10, backgroundColor: "white" }}>
-          <span style={{ color: "#5B5B5B", fontSize: 18, fontWeight: 500 }}>My Chats</span>
+      {messageScreen === false ?
+        <div className="attendeeDiv">
+          <div style={{ padding: 10, backgroundColor: "white" }}>
+            <span style={{ color: "#5B5B5B", fontSize: 18, fontWeight: 500 }}>My Chats</span>
+          </div>
+          {userListView === false ? <div>
+            <div onClick={() => setUserListView(true)} style={{ padding: 5, backgroundColor: "white", marginTop: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+              <span style={{ color: "#5B5B5B", fontSize: 12, fontWeight: 500 }}>Create a New Group</span>
+              <img src={plus} alt="add" style={{ marginLeft: 10 }} />
+            </div>
+
+            {<PublicGroup
+              setMessageScreen={setMessageScreen}
+              setUserDetails={setUserDetails}
+              userDetails={userDetails}
+            />}
+
+            {<AuditoriumChat
+              setMessageScreen={setMessageScreen}
+              setUserDetails={setUserDetails}
+              userDetails={userDetails}
+            />}
+
+            {<HelpChat
+              setMessageScreen={setMessageScreen}
+              setUserDetails={setUserDetails}
+              userDetails={userDetails}
+            />}
+
+            {<ExhibitorChat
+              setMessageScreen={setMessageScreen}
+              setUserDetails={setUserDetails}
+              userDetails={userDetails}
+            />}
+
+            <CustomGroupChats
+              customGroup={customGroup}
+              myUserObject={myUserObject}
+              handleTime={handleTime}
+              setMessageScreen={setMessageScreen}
+              userDetails={userDetails}
+              setUserDetails={setUserDetails}
+            />
+
+            <PrivateChats
+              myChats={myChats}
+              myUserObject={myUserObject}
+              handleTime={handleTime}
+              setMessageScreen={setMessageScreen}
+              userDetails={userDetails}
+              setUserDetails={setUserDetails}
+            />
+          </div> :
+            <UserList setUserListView={setUserListView}/>}
+
         </div>
-        <div style={{ padding: 5, backgroundColor: "white", marginTop: 5, display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
-          <span style={{ color: "#5B5B5B", fontSize: 12, fontWeight: 500 }}>Create a New Group</span>
-          <img src={plus} alt="add" style={{ marginLeft: 10 }} />
-        </div>
-
-        {<PublicGroup
-          setMessageScreen={setMessageScreen}
-          setUserDetails={setUserDetails}
-          userDetails={userDetails}
-        />}
-
-        {<AuditoriumChat
-          setMessageScreen={setMessageScreen}
-          setUserDetails={setUserDetails}
-          userDetails={userDetails}
-        />}
-
-        {<HelpChat
-          setMessageScreen={setMessageScreen}
-          setUserDetails={setUserDetails}
-          userDetails={userDetails}
-        />}
-
-        {<ExhibitorChat
-          setMessageScreen={setMessageScreen}
-          setUserDetails={setUserDetails}
-          userDetails={userDetails}
-        />}
-
-        <CustomGroupChats
-          customGroup={customGroup}
-          myUserObject={myUserObject}
-          handleTime={handleTime}
-          setMessageScreen={setMessageScreen}
-          userDetails={userDetails}
-          setUserDetails={setUserDetails}
-        />
-
-        <PrivateChats
-          myChats={myChats}
-          myUserObject={myUserObject}
-          handleTime={handleTime}
-          setMessageScreen={setMessageScreen}
-          userDetails={userDetails}
-          setUserDetails={setUserDetails}
-        />
-
-      </div> :
-        <MessageScreen
+        : <MessageScreen
           setMessageScreen={setMessageScreen}
           userDetails={userDetails}
         />}
