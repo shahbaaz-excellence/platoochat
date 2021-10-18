@@ -43,10 +43,10 @@ const Chats = () => {
           className={"navigationTab"}
         >
           <Tab eventKey="attendees" title={<><img src={key == "attendees" ? attendeeLightTab : attendeeTab} alt="attendees" /></>}>
-            <Attendees setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
+            <Attendees setMessageScreen={setMessageScreen} messageScreen={messageScreen} chatWindow={chatWindow} />
           </Tab>
           <Tab eventKey="myChats" title={<><img src={key == "myChats" ? chatLightTab : chatTab} alt="chats" /></>}>
-            <MyChats setMessageScreen={setMessageScreen} messageScreen={messageScreen} />
+            <MyChats setMessageScreen={setMessageScreen} messageScreen={messageScreen} chatWindow={chatWindow}  />
           </Tab>
           <Tab eventKey="poll" title={<><img src={key == "poll" ? pollLightTab : pollTab} alt="polls" /></>}>
             <Poll />

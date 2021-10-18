@@ -15,7 +15,7 @@ const MessageScreen = ({ setMessageScreen, userDetails }) => {
 
         <div style={{ display: "flex", flexDirection: "column", minHeight: "64vh" }}>
           <ChatMessage userDetails={userDetails} />
-          <InputChat />
+          <InputChat userDetails={userDetails} />
         </div>
       </div>
     </>

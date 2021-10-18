@@ -99,12 +99,14 @@
   /* background-color: darkseagreen; */
   display: flex;
   justify-content: left;
+  padding: 5px;
 }
 
 .sender {
   /* background-color: yellow; */
   display: flex;
   justify-content: right;
+  padding: 5px;
 }
 
 .userListDiv {

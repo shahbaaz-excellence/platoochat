@@ -23,5 +23,4 @@ var firebaseConfig = {
 firebaseApp.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 export const RealTimeDb = firebase.database();
-
 export const auth = firebaseApp.auth();

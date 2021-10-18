@@ -5,7 +5,6 @@ const PublicGroup = ({ setMessageScreen, setUserDetails, userDetails }) => {
 
   const handlePublicGroup = () => {
     setUserDetails({
-      ...userDetails,
       name: "Public Group",
       roomId: "group",
       type: "publicGroup", 

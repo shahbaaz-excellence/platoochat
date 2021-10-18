@@ -6,13 +6,14 @@ import MessageScreen from "./messageScreen";
 import search from "../assets/search.svg";
 import "../App.css";
 
-const Attendees = ({ messageScreen, setMessageScreen }) => {
+const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
   const [attendeeList, setAttendeeList] = useState();
   const [itemCount, setItemCount] = useState(10);
   const [attendeeDetails, setAttendeeDetails] = useState({
     name: "",
-    status: "",
+    uid: "",
     lastSeen: "",
+    photoURL: ""
   });
 
 
@@ -26,7 +27,7 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
       snapshot.forEach((snap) => {
         users.push({
           name: snap.val().name || "untitled",
-          status: snap.val().status || "offline",
+          uid: snap.val().uid,
           lastSeen: snap.val().lastSeen || "",
           photoURL: snap.val().photoURL || "",
         })
@@ -42,13 +43,16 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
     }
   }
 
-  const getAttendeeDetails = (name, status, lastSeen) => {
-    setAttendeeDetails({
-      name: name,
-      status: status,
-      lastSeen: lastSeen,
-    })
-    setMessageScreen(true)
+  const getAttendeeDetails = (user) => {
+    if (user) {
+      setAttendeeDetails({
+        name: user.name,
+        uid: user.uid,
+        lastSeen: user.lastSeen,
+        photoURL: user.photoURL,
+      })
+      setMessageScreen(true)
+    }
   }
 
   const handleSearch = (e) => {
@@ -57,7 +61,7 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
       snapshot.forEach((snap) => {
         users.push({
           name: snap.val().name || "untitled",
-          status: snap.val().status || "offline",
+          uid: snap.val().uid || "offline",
           lastSeen: snap.val().lastSeen || "",
           photoURL: snap.val().photoURL || "",
         })
@@ -78,7 +82,7 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
             {/* {console.log(attendeeList, "aaaaaaaaaaa")} */}
             {attendeeList?.map((user, index) => (
               <>
-                <div key={index} onClick={() => getAttendeeDetails(user.name, user.status, user.lastSeen)} style={{ display: "flex", flexDirection: "row", margin: 15, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", alignItems: "center", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
+                <div key={index} onClick={() => getAttendeeDetails(user)} style={{ display: "flex", flexDirection: "row", margin: 15, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", alignItems: "center", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
                   <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
                     <img src={attendee} style={{ borderRadius: "50%", height: 40, width: 40, objectFit: "none", margin: "5px" }} />
                     <span style={{ color: "#5B5B5B", fontSize: 18, marginLeft: 30 }}>{user.name}</span>
@@ -89,16 +93,17 @@ const Attendees = ({ messageScreen, setMessageScreen }) => {
             ))}
           </div>
 
-          <form style={{ position: "fixed", bottom: 0, display: "flex", flexDirection: "row", alignItems: "center", background: "white" }}>
-            <img src={search} alt="search" style={{ marginLeft: 10 }} />
-            <input
-              placeholder="Search" onChange={(e)=> handleSearch(e)}
-              style={{ width: "325px", height: "4vh", border: "none", outline: "none", paddingLeft: 10 }} />
-          </form>
+          {chatWindow == true &&
+            <form style={{ position: "fixed", bottom: 0, display: "flex", flexDirection: "row", alignItems: "center", background: "white" }}>
+              <img src={search} alt="search" style={{ marginLeft: 10 }} />
+              <input
+                placeholder="Search" onChange={(e) => handleSearch(e)}
+                style={{ width: "325px", height: "4vh", border: "none", outline: "none", paddingLeft: 10 }} />
+            </form>}
         </>
         : <MessageScreen
           setMessageScreen={setMessageScreen}
-          attendeeDetails={attendeeDetails}
+          userDetails={attendeeDetails}
         />}
     </>
   );
