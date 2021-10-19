@@ -5,9 +5,11 @@ import smiley from "../assets/smiley.svg";
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart';
 import { auth } from "../config/firebaseConfig";
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { profileImage, subdomain } from "../constants/constants";
+import { RealTimeDb } from "../config/firebaseConfig";
 
-const InputChat = ({userDetails}) => {
+const InputChat = ({ userDetails }) => {
   const [previewEmoji, setPreviewEmoji] = useState(false);
   const [content, setcontent] = useState("");
 
@@ -17,9 +19,6 @@ const InputChat = ({userDetails}) => {
     let emoji = content + e.native;
     handleChange(emoji);
   };
-
-  console.log(user, "uuuu", userDetails);
-
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -35,9 +34,15 @@ const InputChat = ({userDetails}) => {
     // setLoading(true);
     //uploading the image and setting the details of image for the same to show it on the chat list
     const name = file?.name;
-    const metadata = { contentType: file?.type };
-    const uploader = getStorage().child(name).put(file, metadata);
-    uploader.then((snapshot) => snapshot.ref.getDownloadURL())
+    // const metadata = { contentType: file?.type };
+    // const uploader = getStorage().child(name).put(file, metadata);
+    const storage = getStorage();
+    const storageRef = ref(storage, name);
+    const metadata = {
+      contentType: file.type,
+    };
+    const uploadTask = uploadBytes(storageRef, file, metadata)
+      .then((snapshot) => snapshot.getDownloadURL())
       .then((url) => {
         const uploadedFile = {
           name: file.name,
@@ -48,97 +53,93 @@ const InputChat = ({userDetails}) => {
         // setLoading(false);
       })
       .catch((error) => {
+        console.log("eeeeeee");
         // setLoading(false);
       });
   };
 
 
   const handleSubmit = async (file) => {
-    // let data = {
-    //   content: content,
-    //   timestamp: Date.now(),
-    //   username: userDetails.name,
-    //   type: userDetails.type,
-    //   [user.uid]: "unread",
-    //   recipient: user.uid ? user.uid : "group",
-    //   roomid: `${user.roomid}`,
-    //   sender: userId,
-    //   senderEmail: email,
-    //   senderPhotoURL: `${photoURL}`,
-    // };
+    let data = {
+      content: content,
+      timestamp: Date.now(),
+      type: userDetails.type,
+      [userDetails.uid]: "unread",
+      recipient: userDetails.type === "privateChat" ? userDetails.uid : userDetails.type,
+      recipientName: userDetails.name,
+      recipientPhotoURL: userDetails.type === "privateChat" ? userDetails?.photoURL : "",
+      roomid: userDetails.roomId,
+      sender: user?.uid,
+      senderName: user?.displayName,
+      senderPhotoURL: profileImage,
+      uid: user?.uid,
+      username: user?.displayName,
+    };
 
-    // if (file && file.hasOwnProperty("url")) {
-    //   data.file = file;
-    // }
-    // if (file && file.hasOwnProperty("chat")) {
-    //   data.chat = file;
-    //   data.content = `${userName} is calling. Accept the call`;
-    // }
-    // if (
-    //   typeof file === "string" &&
-    //   (file?.includes(" has been added to the group") ||
-    //     file?.includes(" has been removed from the group") ||
-    //     file.includes("Created "))
-    // ) {
-    //   data.content = file;
-    // }
+    if (file && file.hasOwnProperty("url")) {
+      data.file = file;
+    }
+    if (file && file.hasOwnProperty("chat")) {
+      data.chat = file;
+      data.content = `${user?.displayName} is calling. Accept the call`;
+    }
+    if (
+      typeof file === "string" &&
+      (file?.includes(" has been added to the group") ||
+        file?.includes(" has been removed from the group") ||
+        file.includes("Created "))
+    ) {
+      data.content = file;
+    }
 
-    // if (typeof file === "string" && file?.includes("https://")) {
-    //   data.content = file;
-    // }
+    if (typeof file === "string" && file?.includes("https://")) {
+      data.content = file;
+    }
 
-    // if (
-    //   typeof file === "string" &&
-    //   file?.includes(
-    //     "Nice to meet you. It seems we have same areas of interest, would you be interested in having a conversion with me"
-    //   )
-    // ) {
-    //   data.content = file;
-    // }
+    if (
+      typeof file === "string" &&
+      file?.includes(
+        "Nice to meet you. It seems we have same areas of interest, would you be interested in having a conversion with me"
+      )
+    ) {
+      data.content = file;
+    }
 
-    // if (file && file.hasOwnProperty("hangedUp")) {
-    //   data.hangedUp = file;
-    //   data.content = file.content;
-    // }
+    if (file && file.hasOwnProperty("hangedUp")) {
+      data.hangedUp = file;
+      data.content = file.content;
+    }
 
-    // if (file && file.hasOwnProperty("url")) {
-    //   data.file = file;
-    // }
-    // try {
-    //   setcontent("");
-    //   user.uid !== null &&
-    //     userId &&
-    //     data.type === "user" &&
-    //     (await db
-    //       .ref(`users/${domain}/${user.uid}/recentMessage/${userId}`)
-    //       .set(data));
-    //   user.uid !== null &&
-    //     userId &&
-    //     data.type === "user" &&
-    //     (await db
-    //       .ref(
-    //         `users/${domain}/${userId}/recentMessage/${user.uid ? user.uid : "group"
-    //         }`
-    //       )
-    //       .set(data));
-    //   await db.ref(`chats/${domain}/${user.roomid}`).push(data);
-    //   (await data?.type) === "customGroup" &&
-    //     groupMembers.forEach((val) => {
-    //       val.uid === userId
-    //         ? (data[val.uid] = "read")
-    //         : (data[val.uid] = "unread");
-    //       db?.ref(
-    //         `users/${domain}/${val.uid}/customGroup/${groupKey}/lastMessage`
-    //       ).set(data);
-    //     });
+    if (file && file.hasOwnProperty("url")) {
+      data.file = file;
+    }
+    try {
+      setcontent("");
+      userDetails.uid !== null && user.uid && data.type === "privateChat" &&
+        (await RealTimeDb.ref(`users/${subdomain}/${userDetails.uid}/recentMessage/${user.uid}`).set(data));
 
-    //   (await data?.type) === "auditoriumGroup" &&
-    //     db
-    //       .ref(`auditoriumGroup/${domain}/${user.roomid}/lastMessage`)
-    //       .set(data);
-    // } catch (error) {
-    //   console.log(error.message);
-    // }
+      userDetails.uid !== null && user.uid && data.type === "privateChat" &&
+        (await RealTimeDb.ref(`users/${subdomain}/${user.uid}/recentMessage/${userDetails.uid}`).set(data));
+
+      await RealTimeDb.ref(`chats/${subdomain}/${userDetails.roomId}`).push(data);
+
+      // data?.type === "customGroup" &&
+      //   groupMembers.forEach((val) => {
+      //     val.uid === user.uid
+      //       ? (data[val.uid] = "read")
+      //       : (data[val.uid] = "unread");
+      //     RealTimeDb.ref(
+      //       `users/${subdomain}/${val.uid}/customGroup/${groupKey}/lastMessage`
+      //     ).set(data);
+      //   });
+
+      // data?.type === "auditoriumGroup" &&
+      //   RealTimeDb
+      //     .ref(`auditoriumGroup/${subdomain}/${user.roomid}/lastMessage`)
+      //     .set(data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -156,13 +157,16 @@ const InputChat = ({userDetails}) => {
         }
         <input
           placeholder="Type your message"
+          required
+          value={content}
           onChange={(e) => { handleChange(e.target.value); setPreviewEmoji(false) }}
           style={{ width: "253px", height: 40, border: "none", outline: "none" }} />
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 30, width: 40, cursor: "pointer" }}>
-          <img src={attachment} alt="smiley" />
+          <input style={{ display: "none" }} id="fileUpload" type="file" onChange={e => { handleChange(e.target.files[0]) }} />
+          <label style={{ cursor: "pointer" }} for="fileUpload"><img src={attachment} alt="attach file" /></label>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 30, width: 40, cursor: "pointer" }}>
-          <img src={send} alt="smiley" />
+        <div onClick={(e) => handleSend(e)} style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 30, width: 40, cursor: "pointer" }}>
+          <img src={send} alt="send" />
         </div>
       </form>
     </>

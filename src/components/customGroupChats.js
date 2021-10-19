@@ -18,7 +18,6 @@ const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScr
 
   const handleCustomGroup = (group) => {
     setUserDetails({
-      ...userDetails,
       name: `${groupName(group)}`,
       roomId: `${group}`,
       type: "customGroup",

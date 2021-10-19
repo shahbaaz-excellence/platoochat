@@ -4,6 +4,7 @@ import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
 import MessageScreen from "./messageScreen";
 import search from "../assets/search.svg";
+import { auth } from "../config/firebaseConfig";
 import "../App.css";
 
 const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
@@ -16,6 +17,7 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
     photoURL: ""
   });
 
+  const userData = auth.currentUser;
 
   useEffect(() => {
     getAllAttendees();
@@ -27,9 +29,10 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
       snapshot.forEach((snap) => {
         users.push({
           name: snap.val().name || "untitled",
+          email: snap.val().email,
           uid: snap.val().uid,
-          lastSeen: snap.val().lastSeen || "",
           photoURL: snap.val().photoURL || "",
+          status: snap.val().status,
         })
       })
       setAttendeeList(users);
@@ -44,12 +47,16 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
   }
 
   const getAttendeeDetails = (user) => {
-    if (user) {
+
+    const roomid = userData?.email?.toLowerCase() < user?.email?.toLowerCase() ? `${userData?.uid}_${user?.uid}` : `${user?.uid}_${userData?.uid}`
+
+    if (user && roomid) {
       setAttendeeDetails({
         name: user.name,
         uid: user.uid,
-        lastSeen: user.lastSeen,
+        roomId: roomid,
         photoURL: user.photoURL,
+        type: "privateChat",
       })
       setMessageScreen(true)
     }
@@ -61,9 +68,10 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
       snapshot.forEach((snap) => {
         users.push({
           name: snap.val().name || "untitled",
-          uid: snap.val().uid || "offline",
-          lastSeen: snap.val().lastSeen || "",
+          email: snap.val().email,
+          uid: snap.val().uid,
           photoURL: snap.val().photoURL || "",
+          status: snap.val().status,
         })
       })
       setAttendeeList(users);
