@@ -1,38 +1,121 @@
-.App {
-  text-align: center;
+#root{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+.chatWindowOpen{
+    position: fixed;
+    bottom: 0;
+    height: 75vh;
+    width: 375px;
+    right: 100px;
+    border:1px solid lightgrey;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    transition: 0.5s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.chatWindowClosed{
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  width: 375px;
+  right: 100px;
+  transition: 0.5s;
+  /* border:1px solid whitesmoke; */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* //attendees// */
+
+.navigationTab{
+    display: flex;
+    justify-content: space-between;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    height: 60px;
+}
+
+.nav-tabs {
+  background: #f1f1f1;
+  margin-bottom: 0 !important;
+}
+
+.nav-item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex: 1;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  height: 60px;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-link {
+  border: none !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-link.active {
+  background-color: #5B5B5B !important;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  /* border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important; */
 }
+
+
+.attendeeDiv{
+    background-color: whitesmoke;
+    overflow-y: scroll;
+    height: 65vh;
+}
+
+.attendeeDiv::-webkit-scrollbar {
+    display: none;
+}
+
+/* // chatMessages // */
+
+.chatMessageDiv {
+  overflow-y: scroll;
+  height: 59vh;
+  background: whitesmoke;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.chatMessageDiv::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE and Edge */
+.chatMessageDiv {
+  -ms-overflow-style: none;
+}
+
+.receiver {
+  /* background-color: darkseagreen; */
+  display: flex;
+  justify-content: left;
+  padding: 5px;
+}
+
+.sender {
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: right;
+  padding: 5px;
+}
+
+.userListDiv {
+  overflow-y: scroll;
+  height: 59vh;
+}
+
+.userListDiv::-webkit-scrollbar {
+  display: none;
+}
+
+
