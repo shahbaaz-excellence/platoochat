@@ -21,7 +21,9 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
   const [myUserObject, setMyUserObject] = useState(false);
   const [userDetails, setUserDetails] = useState({
     name: "",
+    uid: "",
     roomId: "",
+    photoURL: "",
     type: "",
   });
 
@@ -121,7 +123,6 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
     const searchVal = e.target.value;
     
   }
-
 
   return (
     <>
