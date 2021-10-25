@@ -7,7 +7,9 @@ const PublicGroup = ({ setMessageScreen, setUserDetails, userDetails }) => {
     setUserDetails({
       name: "Public Group",
       roomId: "group",
-      type: "publicGroup", 
+      type: "publicGroup",
+      photoURL: "",
+      uid: "",
     })
     setMessageScreen(true)
   }

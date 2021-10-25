@@ -13,8 +13,9 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
   const [attendeeDetails, setAttendeeDetails] = useState({
     name: "",
     uid: "",
-    lastSeen: "",
-    photoURL: ""
+    roomId: "",
+    photoURL: "",
+    type: "",
   });
 
   const userData = auth.currentUser;

@@ -4,17 +4,46 @@ import attendee from "../assets/attendee.png";
 import { subdomain } from "../constants/constants";
 import { RealTimeDb } from "../config/firebaseConfig";
 import "../App.css";
-import { handleAction } from "redux-actions";
+import { v4 as uuidv4 } from "uuid";
+import { auth } from "../config/firebaseConfig";
 
-const UserList = ({ setUserListView }) => {
+const UserList = ({ setUserListView, userListView, addGrpSearchText }) => {
 
   const [attendeeList, setAttendeeList] = useState();
   const [itemCount, setItemCount] = useState(10);
+  const [groupName, setGroupName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [myData, setMyData] = useState();
+
+  const { uid } = auth.currentUser;
 
   useEffect(() => {
     getAllAttendees();
+    getMyData();
   }, [itemCount])
+
+
+
+  useEffect(() => {
+    if(userListView === true && addGrpSearchText){
+      handleSearchUser();
+    }
+  }, [addGrpSearchText])
+
+  const handleSearchUser =()=>{
+    RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).orderByChild("name").startAfter(`${addGrpSearchText}`).endAt(`${addGrpSearchText}\uf8ff`).on("value", (snapshot) => {
+      let users = [];
+      snapshot.forEach((snap) => {
+        users.push({
+          name: snap.val().name || "untitled",
+          status: snap.val().status || "offline",
+          uid: snap.val().uid || "",
+          photoURL: snap.val().photoURL || "",
+        })
+      })
+      setAttendeeList(users);
+    })
+  }
 
   const getAllAttendees = () => {
     RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).on("value", (snapshot) => {
@@ -38,43 +67,90 @@ const UserList = ({ setUserListView }) => {
     }
   }
 
-  useEffect(()=>{
-    console.log(selectedUsers,"iiiiii");
-  },[selectedUsers])
+  const getMyData = () => {
+    RealTimeDb.ref(`users/${subdomain}/${uid}`).on("value", (snapshot) => {
+      const data = {
+        name: snapshot.val().name,
+        status: snapshot.val().status,
+        uid: snapshot.val().uid,
+        photoURL: snapshot.val().photoURL,
+      }
+      setMyData(data);
+    })
+  }
+
+  useEffect(() => {
+    console.log(selectedUsers, "iiiiii");
+  }, [selectedUsers])
 
   const handleSelectUser = (user) => {
-      let userExist = false;
-      const allUser = [...selectedUsers]
-      allUser?.find(val => {
-          if (val.uid === user.uid) {
-              userExist = true
-          }
-      })
+    let userExist = false;
+    const allUser = [...selectedUsers]
+    allUser?.find(val => {
+      if (val.uid === user.uid) {
+        userExist = true
+      }
+    })
 
-      if (userExist) {
-          const a = [...selectedUsers]
-          const b = a.filter(val => val.uid != user.uid)
-          setSelectedUsers(b)
-      }
-      else {
-          const a = [...selectedUsers]
-          a.push(user);
-          setSelectedUsers(a)
-      }
+    if (userExist) {
+      const a = [...selectedUsers]
+      const b = a.filter(val => val.uid != user.uid)
+      setSelectedUsers(b)
+    }
+    else {
+      const a = [...selectedUsers]
+      a.push(user);
+      setSelectedUsers(a)
+    }
+  }
+
+  const handleChangeGroupName = (grpName) => {
+    setGroupName(grpName);
+  }
+
+  const handleCreateGroup = async (e) => {
+    e.preventDefault();
+    let roomId = uuidv4();
+    const members = [...selectedUsers, myData]
+    await RealTimeDb.ref(`customGroup/${subdomain}/` + roomId).set({
+      name: groupName,
+      roomid: roomId,
+      admin: uid,
+      type: "customGroup",
+      uid: roomId,
+      members: members,
+    });
+
+    members?.forEach((val) => {
+      RealTimeDb.ref(`users/${subdomain}/${val.uid}/customGroup/` + roomId).set({
+        name: groupName,
+        roomid: roomId,
+        type: "customGroup",
+        uid: roomId,
+        admin: uid,
+      });
+    });
+
+    setUserListView(false);
+    setSelectedUsers([]);
   }
 
   return (
     <>
       <>
-        <div style={{ backgroundColor: "white", marginTop: 5, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-          <input
-            placeholder="Type Group Name"
-            style={{ width: "270px", height: 40, border: "none", outline: "none", paddingLeft: 8 }} />
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginRight: 8, flex: 1 }}>
-            <div><button style={{ color: "white", backgroundColor: "#5B5B5B", border: "none", borderRadius: 5 }}>Create</button></div>
-            <div onClick={() => setUserListView(false)} style={{ height: 25, width: 25, borderRadius: "50%", background: "red", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}><img src={cross} /></div>
+        <form onSubmit={(e) => handleCreateGroup(e)} >
+          <div style={{ backgroundColor: "white", marginTop: 5, display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <input
+              placeholder="Type Group Name"
+              required
+              onChange={(e) => handleChangeGroupName(e.target.value)}
+              style={{ width: "270px", height: 40, border: "none", outline: "none", paddingLeft: 8 }} />
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginRight: 8, flex: 1 }}>
+              <div><button type="submit" style={{ color: "white", backgroundColor: "#5B5B5B", border: "none", borderRadius: 5 }}>Create</button></div>
+              <div onClick={() => setUserListView(false)} style={{ height: 25, width: 25, borderRadius: "50%", background: "red", display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}><img src={cross} /></div>
+            </div>
           </div>
-        </div>
+        </form>
 
         <div className="userListDiv" onScroll={(e) => loadMore(e)}>
 

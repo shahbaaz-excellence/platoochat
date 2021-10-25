@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import groupImg from "../assets/group.svg";
 import volume from "../assets/volume.svg";
+import { subdomain } from "../constants/constants";
+import { RealTimeDb } from "../config/firebaseConfig";
+import { auth } from "../config/firebaseConfig";
 
 const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScreen, userDetails, setUserDetails }) => {
 
@@ -8,6 +11,8 @@ const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScr
     const grpName = myUserObject?.customGroup[group]?.name?.slice(0, 25)
     return grpName || "Untitled Group";
   }
+
+  const { uid } = auth.currentUser;
 
   const groupRecentMsg = (group) => {
     const grpLastMsg = myUserObject?.customGroup[group]?.lastMessage?.content.length > 20
@@ -22,7 +27,19 @@ const CustomGroupChats = ({ customGroup, handleTime, myUserObject, setMessageScr
       roomId: `${group}`,
       type: "customGroup",
     })
-    setMessageScreen(true)
+    handleReadMsg(group);
+    setMessageScreen(true);
+  }
+
+  const handleReadMsg = (groupId) => {
+    // let lastMessage = {};
+    // RealTimeDb.ref(`users/${subdomain}/${uid}/customGroup/${groupId}/lastMessage`).on("value", (snapshot) => {
+    //   lastMessage = snapshot.val();
+    //   lastMessage && lastMessage[userId] === "unread" &&
+    //     RealTimeDb.ref(`users/${subdomain}/${uid}/customGroup/${groupId}/lastMessage`).update({
+    //       [uid]: "read",
+    //     });
+    // });
   }
 
   return (

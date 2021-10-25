@@ -21,9 +21,12 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
   const [myUserObject, setMyUserObject] = useState(false);
   const [userDetails, setUserDetails] = useState({
     name: "",
+    uid: "",
     roomId: "",
+    photoURL: "",
     type: "",
   });
+  const [addGrpSearchText, setAddGrpSearchText] = useState();
 
   const { uid } = auth.currentUser;
 
@@ -119,9 +122,10 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
 
   const handleSearch = (e) => {
     const searchVal = e.target.value;
-    
+    if (userListView === true) {
+      setAddGrpSearchText(searchVal)
+    }
   }
-
 
   return (
     <>
@@ -179,7 +183,12 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
                 setUserDetails={setUserDetails}
               />
             </div> :
-              <UserList setUserListView={setUserListView} />}
+              <UserList
+                setUserListView={setUserListView}
+                userListView={userListView}
+                addGrpSearchText={addGrpSearchText}
+
+              />}
 
           </div>
           {chatWindow == true &&
