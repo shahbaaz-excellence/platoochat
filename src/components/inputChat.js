@@ -13,9 +13,30 @@ import { UploadFile } from "./fileUpload";
 const InputChat = ({ userDetails }) => {
   const [previewEmoji, setPreviewEmoji] = useState(false);
   const [content, setcontent] = useState("");
-  // const [userData, setUserData] = useState({});
+  const [groupMembers, setGroupMembers] = useState();
 
   const user = auth.currentUser;
+
+  useEffect(()=>{
+    if(userDetails.type==="customGroup"){
+      getGroupMembers()
+    }
+  },[userDetails])
+
+  const getGroupMembers = () => {
+    RealTimeDb.ref(`customGroup/${subdomain}/${userDetails.roomId}/members`).on("value", (snapshot) => {
+      let grpMembers = [];
+      snapshot.forEach((snap) => {
+        grpMembers.push({
+          name: snap.val().name || "untitled",
+          status: snap.val().status || "offline",
+          uid: snap.val().uid || "",
+          photoURL: snap.val().photoURL || "",
+        })
+      })
+      setGroupMembers(grpMembers);
+    })
+  }
 
   const addEmoji = (e) => {
     let emoji = content + e.native;
@@ -108,15 +129,15 @@ const InputChat = ({ userDetails }) => {
 
       await RealTimeDb.ref(`chats/${subdomain}/${userDetails.roomId}`).push(data);
 
-      // data?.type === "customGroup" &&
-      //   groupMembers.forEach((val) => {
-      //     val.uid === user.uid
-      //       ? (data[val.uid] = "read")
-      //       : (data[val.uid] = "unread");
-      //     RealTimeDb.ref(
-      //       `users/${subdomain}/${val.uid}/customGroup/${groupKey}/lastMessage`
-      //     ).set(data);
-      //   });
+      data?.type === "customGroup" &&
+        groupMembers.forEach((val) => {
+          val.uid === user.uid
+            ? (data[val.uid] = "read")
+            : (data[val.uid] = "unread");
+          RealTimeDb.ref(
+            `users/${subdomain}/${val.uid}/customGroup/${userDetails.roomId}/lastMessage`
+          ).set(data);
+        });
 
       // data?.type === "auditoriumGroup" &&
       //   RealTimeDb

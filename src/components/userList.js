@@ -7,18 +7,43 @@ import "../App.css";
 import { v4 as uuidv4 } from "uuid";
 import { auth } from "../config/firebaseConfig";
 
-const UserList = ({ setUserListView }) => {
+const UserList = ({ setUserListView, userListView, addGrpSearchText }) => {
 
   const [attendeeList, setAttendeeList] = useState();
   const [itemCount, setItemCount] = useState(10);
   const [groupName, setGroupName] = useState();
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [myData, setMyData] = useState();
 
   const { uid } = auth.currentUser;
 
   useEffect(() => {
     getAllAttendees();
+    getMyData();
   }, [itemCount])
+
+
+
+  useEffect(() => {
+    if(userListView === true && addGrpSearchText){
+      handleSearchUser();
+    }
+  }, [addGrpSearchText])
+
+  const handleSearchUser =()=>{
+    RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).orderByChild("name").startAfter(`${addGrpSearchText}`).endAt(`${addGrpSearchText}\uf8ff`).on("value", (snapshot) => {
+      let users = [];
+      snapshot.forEach((snap) => {
+        users.push({
+          name: snap.val().name || "untitled",
+          status: snap.val().status || "offline",
+          uid: snap.val().uid || "",
+          photoURL: snap.val().photoURL || "",
+        })
+      })
+      setAttendeeList(users);
+    })
+  }
 
   const getAllAttendees = () => {
     RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).on("value", (snapshot) => {
@@ -40,6 +65,18 @@ const UserList = ({ setUserListView }) => {
     if (bottom) {
       setItemCount((itemCount) => itemCount + 10);
     }
+  }
+
+  const getMyData = () => {
+    RealTimeDb.ref(`users/${subdomain}/${uid}`).on("value", (snapshot) => {
+      const data = {
+        name: snapshot.val().name,
+        status: snapshot.val().status,
+        uid: snapshot.val().uid,
+        photoURL: snapshot.val().photoURL,
+      }
+      setMyData(data);
+    })
   }
 
   useEffect(() => {
@@ -74,24 +111,28 @@ const UserList = ({ setUserListView }) => {
   const handleCreateGroup = async (e) => {
     e.preventDefault();
     let roomId = uuidv4();
+    const members = [...selectedUsers, myData]
     await RealTimeDb.ref(`customGroup/${subdomain}/` + roomId).set({
       name: groupName,
       roomid: roomId,
       admin: uid,
       type: "customGroup",
       uid: roomId,
-      members: selectedUsers,
+      members: members,
     });
 
-    selectedUsers.forEach((val) => {
+    members?.forEach((val) => {
       RealTimeDb.ref(`users/${subdomain}/${val.uid}/customGroup/` + roomId).set({
         name: groupName,
         roomid: roomId,
         type: "customGroup",
         uid: roomId,
-        admin: val.uid === uid ? true : false,
+        admin: uid,
       });
     });
+
+    setUserListView(false);
+    setSelectedUsers([]);
   }
 
   return (

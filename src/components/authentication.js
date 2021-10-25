@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { customerData, subdomain, displayName } from "../constants/constants";
 import { auth } from "../config/firebaseConfig";
-import Chats from "./chats";
+import Settings from "./settings";
 
 const Authentication = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -44,7 +44,7 @@ const Authentication = () => {
 
   return (
     <>
-      {isAuthenticated === true && <Chats />}
+      {isAuthenticated === true && <Settings />}
     </>
   );
 }
