@@ -75,6 +75,26 @@
     display: none;
 }
 
+.pollDiv {
+  background-color: whitesmoke;
+  overflow-y: scroll;
+  height: 69vh;
+}
+
+.pollDiv::-webkit-scrollbar {
+  display: none;
+}
+
+.qnaDiv {
+  background-color: whitesmoke;
+  overflow-y: scroll;
+  height: 64vh;
+}
+
+.qnaDiv::-webkit-scrollbar {
+  display: none;
+}
+
 /* // chatMessages // */
 
 .chatMessageDiv {

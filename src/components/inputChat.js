@@ -5,7 +5,7 @@ import smiley from "../assets/smiley.svg";
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart';
 import { auth } from "../config/firebaseConfig";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+// import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { profileImage, subdomain } from "../constants/constants";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { UploadFile } from "./fileUpload";
@@ -56,7 +56,7 @@ const InputChat = ({ userDetails }) => {
 
   const handleChangeFile = (file) => {
     UploadFile(file).then((uploadedFileData)=>{
-      console.log(uploadedFileData,"lllloo");
+      // console.log(uploadedFileData,"lllloo");
       handleSubmit(uploadedFileData);
     }).catch((e)=>{
       console.log(e.message);
