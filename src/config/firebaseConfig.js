@@ -12,12 +12,14 @@ import "firebase/compat/auth";
 // };
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAaowy-juDBu-rtUbTAp5XdQChI7FXIYm0",
-  authDomain: "platoo-polls.firebaseapp.com",
-  projectId: "platoo-polls",
-  storageBucket: "platoo-polls.appspot.com",
-  messagingSenderId: "1026961897594",
-  appId: "1:1026961897594:web:428198f70674f508f323c3"
+  apiKey: "AIzaSyDyhu75NJKtUzwJqs5RZTkuMGth6nq496Q",
+  authDomain: "platoo-7eff0.firebaseapp.com",
+  databaseURL: "https://platoo-7eff0.firebaseio.com",
+  projectId: "platoo-7eff0",
+  storageBucket: "platoo-7eff0.appspot.com",
+  messagingSenderId: "87835247367",
+  appId: "1:87835247367:web:87797aaad8898f6c1fbba2",
+  measurementId: "G-9JTZS7208F"
 };
 
 firebaseApp.initializeApp(firebaseConfig);
@@ -26,3 +28,5 @@ export const RealTimeDb = firebase.database();
 export const auth = firebaseApp.auth();
 
 export const networkingApi = "https://ai.platoo-platform.com";
+export const baseUrl = "https://us-central1-platoo-7eff0.cloudfunctions.net";
+

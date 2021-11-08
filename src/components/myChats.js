@@ -38,7 +38,7 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
 
   const getRecentMessages = () => {
     RealTimeDb.ref(`users/${subdomain}/`).orderByChild("uid").equalTo(`${uid}`).on("value", (snapshot) => {
-      const myUserObj = snapshot.val()[uid];
+      const myUserObj = snapshot.val() && snapshot.val()[uid];
       setMyUserObject(myUserObj);
       let recentMessageUser = [];
       RealTimeDb.ref(`users/${subdomain}/${uid}/recentMessage/`).on("value", (snapshot) => {
