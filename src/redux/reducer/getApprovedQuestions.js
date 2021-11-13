@@ -6,23 +6,23 @@ const initialState = {
   isError: false,
 };
 
-const GetAllPoll = (state = initialState, action) => {
+const getApprovedQuestions = (state = initialState, action) => {
   switch (action.type) {
-    case actions.GET_ALL_POLL_REQUEST:
+    case actions.GET_APPROVED_QUESTIONS_REQUEST:
       return {
         ...state,
         isLoading: true,
         isSuccess: false,
         isError: false,
       };
-    case actions.GET_ALL_POLL_SUCCESS:
+    case actions.GET_APPROVED_QUESTIONS_SUCCESS:
       return {
         isLoading: false,
         isSuccess: true,
         isError: false,
-        pollList: action.payload.response,
+        approvedQuestionsList: action.payload.response,
       };
-    case actions.GET_ALL_POLL_ERROR:
+    case actions.GET_APPROVED_QUESTIONS_ERROR:
       return {
         isLoading: false,
         isSuccess: false,
@@ -33,4 +33,4 @@ const GetAllPoll = (state = initialState, action) => {
   }
 };
 
-export default GetAllPoll;
+export default getApprovedQuestions;

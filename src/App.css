@@ -14,6 +14,7 @@
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     transition: 0.5s;
+    z-index: 99 !important;
 }
 
 .chatWindowClosed{
@@ -23,6 +24,7 @@
   width: 375px;
   right: 100px;
   transition: 0.5s;
+  z-index: 99 !important;
   /* border:1px solid whitesmoke; */
 }
 
@@ -34,6 +36,7 @@
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     height: 60px;
+    z-index: 99 !important;
 }
 
 .nav-tabs {
@@ -89,6 +92,7 @@
   background-color: whitesmoke;
   overflow-y: scroll;
   height: 64vh;
+  position: relative;
 }
 
 .qnaDiv::-webkit-scrollbar {

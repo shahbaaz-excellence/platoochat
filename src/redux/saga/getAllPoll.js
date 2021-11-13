@@ -9,14 +9,14 @@ import { customerData } from "../../constants/constants";
 export function* GetAllPoll(action) {
   try {
 
-    const url = `${baseUrl}/polling/getdetails/published/${subdomain}?published=true&email=${customerData.email}`
-
-        const response = yield call(
-            axios.get(url)
+        let response = yield call(
+          axios.get,
+          `${baseUrl}/polling/getdetails/published/${subdomain}?published=true&email=${customerData.email}`,
+          action.payload
         );
 
-    if (response) {
-      yield put(getAllPollSuccess({ response: response }));
+    if (response?.data?.data?.polls) {
+      yield put(getAllPollSuccess({ response: response.data.data.polls }));
     } else {
       yield put(getAllPollError({ error: "Data not fetched" }));
     }

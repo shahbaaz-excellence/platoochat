@@ -15,7 +15,8 @@ import qnaTab from "../assets/qnaTab.svg";
 import qnaLightTab from "../assets/qnaLightTab.svg";
 import feedbackTab from "../assets/feedbackTab.svg";
 import feedbackLightTab from "../assets/feedbackLightTab.svg";
-import { ImCross } from 'react-icons/im';
+import { ImCross, ImFontSize } from 'react-icons/im';
+import Notification from "./Notification";
 import "../App.css";
 
 const Chats = () => {
@@ -23,6 +24,11 @@ const Chats = () => {
   const [key, setKey] = useState("attendees");
   const [chatWindow, setChatWindow] = useState(false);
   const [messageScreen, setMessageScreen] = useState(false);
+  const [notification, setNotification] = useState({
+    show:false,
+    heading:"",
+    content:"",
+  })
 
   useEffect(() => {
     setMessageScreen(false);
@@ -36,6 +42,7 @@ const Chats = () => {
           <ImCross color="white" />
         </button>}
       <div className={chatWindow === true ? "chatWindowOpen" : "chatWindowClosed"}>
+        <Notification show={notification.show} heading={notification.heading} content={notification.content} setNotification={setNotification} notification={notification} />
         <Tabs
           id="controlled-tab-example"
           activeKey={key}
@@ -52,7 +59,7 @@ const Chats = () => {
             <Poll />
           </Tab>
           <Tab eventKey="qna" title={<><img src={key == "qna" ? qnaLightTab : qnaTab} alt="qna" /></>}>
-            <QNA />
+            <QNA notification={notification} setNotification={setNotification} />
           </Tab>
           <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
             <Feedback />
