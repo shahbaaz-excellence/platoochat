@@ -17,6 +17,10 @@ const Authentication = () => {
           try {
             auth.signInWithEmailAndPassword(customerData.email, "1234567").then((response) => {
               setIsAuthenticated(true);
+            }).catch((error)=>{
+              auth.createUserWithEmailAndPassword(customerData.email, "1234567").then((response) => {
+                setIsAuthenticated(true);
+              })
             })
           } catch (error) {
             if (error.code === "auth/user-not-found") {

@@ -129,7 +129,7 @@
 .sender {
   /* background-color: yellow; */
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   padding: 5px;
 }
 
