@@ -151,8 +151,7 @@ const InputChat = ({ userDetails }) => {
 
     try {
       setcontent("");
-      // console.log(userDetails);
-      console.log(userDetails, "kkkkkk", data);
+      // console.log(userDetails, "kkkkkk", data);
       userDetails.uid !== "" && user.uid && data.type === "privateChat" &&
         (await RealTimeDb.ref(`users/${subdomain}/${userDetails.uid}/recentMessage/${user.uid}`).set(data));
 

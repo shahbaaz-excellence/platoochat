@@ -22,7 +22,8 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
 
   useEffect(() => {
     getAllAttendees();
-  }, [itemCount])
+  }, [itemCount,messageScreen])
+
 
   const getAllAttendees = () => {
     RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).orderByChild("name").on("value", (snapshot) => {
@@ -41,8 +42,10 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
   }
 
   const loadMore = (e) => {
+    console.log("endddd.....");
     const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (bottom) {
+      console.log("endddd");
       setItemCount((itemCount) => itemCount + 10);
     }
   }
@@ -77,7 +80,6 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
       })
       setAttendeeList(users);
     })
-
   }
 
   return (
@@ -103,11 +105,11 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
           </div>
 
           {chatWindow == true &&
-            <form style={{ position: "fixed", bottom: 0, display: "flex", flexDirection: "row", alignItems: "center", background: "white" }}>
+            <form style={{ display: "flex", flexDirection: "row", alignItems: "center", background: "white" }}>
               <img src={search} alt="search" style={{ marginLeft: 10 }} />
               <input
                 placeholder="Search" onChange={(e) => handleSearch(e)}
-                style={{ width: "325px", height: "4vh", border: "none", outline: "none", paddingLeft: 10 }} />
+                style={{ width: "325px", height: "40px", border: "none", outline: "none", paddingLeft: 10 }} />
             </form>}
         </>
         : <MessageScreen

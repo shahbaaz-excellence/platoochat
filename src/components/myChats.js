@@ -196,7 +196,7 @@ const MyChats = ({ setMessageScreen, messageScreen, chatWindow }) => {
               <img src={search} alt="search" style={{ marginLeft: 10 }} />
               <input
                 placeholder="Search" onChange={(e) => handleSearch(e)}
-                style={{ width: "325px", height: "4vh", border: "none", outline: "none", paddingLeft: 10 }} />
+                style={{ width: "325px", height: "40px", border: "none", outline: "none", paddingLeft: 10 }} />
             </form>}
         </>
         : <MessageScreen

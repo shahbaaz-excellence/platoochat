@@ -7,9 +7,16 @@ const PrivateChats = ({ myChats, myUserObject, handleTime, setMessageScreen, set
   const { uid } = auth.currentUser;
 
   const userRecentMsg = (user) => {
-    const recentMsg = myUserObject?.recentMessage[user?.uid]?.content.length > 20
-      ? myUserObject?.recentMessage[user?.uid]?.content?.slice(0, 20) + '...'
-      : myUserObject?.recentMessage[user?.uid]?.content;
+    let recentMsg = "";
+     if(user.sender==uid){
+      recentMsg = myUserObject?.recentMessage[user?.recipient]?.content.length > 20
+      ? myUserObject?.recentMessage[user?.recipient]?.content?.slice(0, 20) + '...'
+      : myUserObject?.recentMessage[user?.recipient]?.content;
+     } else {
+      recentMsg = myUserObject?.recentMessage[user?.sender]?.content.length > 20
+      ? myUserObject?.recentMessage[user?.sender]?.content?.slice(0, 20) + '...'
+      : myUserObject?.recentMessage[user?.sender]?.content;
+     }
     return recentMsg;
   }
 

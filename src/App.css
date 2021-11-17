@@ -71,8 +71,9 @@
 .attendeeDiv{
     background-color: whitesmoke;
     overflow-y: scroll;
-    height: 65vh;
-}
+    height: calc(75vh - 100px);
+    /* height: 65vh; */
+  }
 
 .attendeeDiv::-webkit-scrollbar {
     display: none;
@@ -81,7 +82,7 @@
 .pollDiv {
   background-color: whitesmoke;
   overflow-y: scroll;
-  height: 69vh;
+  height: calc(75vh - 60px);
 }
 
 .pollDiv::-webkit-scrollbar {
@@ -91,7 +92,7 @@
 .qnaDiv {
   background-color: whitesmoke;
   overflow-y: scroll;
-  height: 64vh;
+  height: calc(75vh - 100px);
   position: relative;
 }
 

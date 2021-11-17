@@ -82,7 +82,7 @@ useEffect(()=>{
         {loading && <div style={{position:"absolute", top:"50%", left:"50%", transform:"translate(-50%, -50%)"}}><Spinner animation="border" /></div>}
       </div>
       <form onSubmit={(e)=>handleSubmitQuestion(e)}>
-        <input value={question} disabled={loading === true ? true : false} required onChange={(e)=>setQuestion(e.target.value)} style={{ width: "374px", height: "4vh", border: "none", outline: "none", paddingLeft: 20 }} placeholder="Type your question" />
+        <input value={question} disabled={loading === true ? true : false} required onChange={(e)=>setQuestion(e.target.value)} style={{ width: "373px", height: "40px", border: "none", outline: "none", paddingLeft: 20, paddingRight: 20 }} placeholder="Type your question" />
       </form>
     </>
   );
