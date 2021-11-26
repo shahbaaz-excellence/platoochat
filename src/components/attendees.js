@@ -18,7 +18,7 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
     type: "",
   });
 
-  const userData = auth.currentUser;
+  const userData = auth?.currentUser;
 
   useEffect(() => {
     getAllAttendees();
@@ -91,7 +91,7 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
               <span style={{ color: "#5B5B5B", fontSize: 18, fontWeight: 500 }}>Attendees</span>
             </div>
             {/* {console.log(attendeeList, "aaaaaaaaaaa")} */}
-            {attendeeList?.map((user, index) => (
+            {attendeeList?.filter(value=>value.uid!==userData.uid).map((user, index) => (
               <>
                 <div key={index} onClick={() => getAttendeeDetails(user)} style={{ display: "flex", flexDirection: "row", margin: 15, padding: 8, borderRadius: 8, cursor: "pointer", backgroundColor: "white", alignItems: "center", boxShadow: " 0 .2rem 0.5rem rgba(0,0,0,.15)" }}>
                   <div style={{ display: "flex", alignItems: "center", flex: 1 }}>

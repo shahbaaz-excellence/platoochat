@@ -14,10 +14,13 @@ import pollLightTab from "../assets/pollLightTab.svg";
 import qnaTab from "../assets/qnaTab.svg";
 import qnaLightTab from "../assets/qnaLightTab.svg";
 import feedbackTab from "../assets/feedbackTab.svg";
+import exhibitorTab from "../assets/exhibitorTab.svg";
+import exhibitorLightTab from "../assets/exhibitorLightTab.svg";
 import feedbackLightTab from "../assets/feedbackLightTab.svg";
 import { ImCross, ImFontSize } from 'react-icons/im';
 import Notification from "./Notification";
 import "../App.css";
+import Exhibitor from "./exhibitor";
 
 const Chats = () => {
 
@@ -64,6 +67,15 @@ const Chats = () => {
           <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
             <Feedback />
           </Tab>
+          <Tab eventKey="exhibitor" title={<><img src={key == "exhibitor" ? exhibitorLightTab : exhibitorTab} alt="exhibitor" /></>}>
+            <Exhibitor />
+          </Tab>
+          {/* <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
+            <Feedback />
+          </Tab>
+          <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
+            <Feedback />
+          </Tab> */}
         </Tabs>
       </div>
     </>
