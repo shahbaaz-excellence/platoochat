@@ -17,10 +17,13 @@ import feedbackTab from "../assets/feedbackTab.svg";
 import exhibitorTab from "../assets/exhibitorTab.svg";
 import exhibitorLightTab from "../assets/exhibitorLightTab.svg";
 import feedbackLightTab from "../assets/feedbackLightTab.svg";
+import currentVisitorLightTab from "../assets/currentVisitorLightTab.svg";
+import currentVisitorDarkTab from "../assets/currentVisitorDarkTab.svg";
 import { ImCross, ImFontSize } from 'react-icons/im';
 import Notification from "./Notification";
 import "../App.css";
 import Exhibitor from "./exhibitor";
+import CurrentVisitor from "./currentVisitor";
 
 const Chats = () => {
 
@@ -61,14 +64,17 @@ const Chats = () => {
           <Tab eventKey="poll" title={<><img src={key == "poll" ? pollLightTab : pollTab} alt="polls" /></>}>
             <Poll />
           </Tab>
-          <Tab eventKey="qna" title={<><img src={key == "qna" ? qnaLightTab : qnaTab} alt="qna" /></>}>
+          {/* <Tab eventKey="qna" title={<><img src={key == "qna" ? qnaLightTab : qnaTab} alt="qna" /></>}>
             <QNA notification={notification} setNotification={setNotification} />
           </Tab>
           <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
             <Feedback />
-          </Tab>
+          </Tab> */}
           <Tab eventKey="exhibitor" title={<><img src={key == "exhibitor" ? exhibitorLightTab : exhibitorTab} alt="exhibitor" /></>}>
             <Exhibitor />
+          </Tab>
+          <Tab eventKey="currentVisitor" title={<><img src={key == "currentVisitor" ? currentVisitorLightTab : currentVisitorDarkTab} alt="currentVisitor" /></>}>
+            <CurrentVisitor />
           </Tab>
           {/* <Tab eventKey="feedback" title={<><img src={key == "feedback" ? feedbackLightTab : feedbackTab} alt="feedback" /></>}>
             <Feedback />

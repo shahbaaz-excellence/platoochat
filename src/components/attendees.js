@@ -3,7 +3,7 @@ import attendee from "../assets/attendee.png";
 import { RealTimeDb } from "../config/firebaseConfig";
 import { subdomain } from "../constants/constants";
 import MessageScreen from "./messageScreen";
-import search from "../assets/search.svg";
+import searchIcon from "../assets/search.svg";
 import { auth } from "../config/firebaseConfig";
 import "../App.css";
 
@@ -18,11 +18,18 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
     type: "",
   });
 
+  const [search, setSearch] = useState("");
+
   const userData = auth?.currentUser;
 
   useEffect(() => {
-    getAllAttendees();
-  }, [itemCount,messageScreen])
+    if(search === ""){
+      getAllAttendees();
+    }
+    if(search !== ""){
+      handleSearch();
+    }
+  }, [itemCount,messageScreen,search])
 
 
   const getAllAttendees = () => {
@@ -67,7 +74,7 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
   }
 
   const handleSearch = (e) => {
-    RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).orderByChild("name").startAfter(`${e.target.value}`).endAt(`${e.target.value}\uf8ff`).on("value", (snapshot) => {
+    RealTimeDb.ref(`users/${subdomain}/`).limitToFirst(itemCount).orderByChild("name").startAfter(`${search}`).endAt(`${search}\uf8ff`).on("value", (snapshot) => {
       let users = [];
       snapshot.forEach((snap) => {
         users.push({
@@ -106,9 +113,9 @@ const Attendees = ({ messageScreen, setMessageScreen, chatWindow }) => {
 
           {chatWindow == true &&
             <form style={{ display: "flex", flexDirection: "row", alignItems: "center", background: "white" }}>
-              <img src={search} alt="search" style={{ marginLeft: 10 }} />
+              <img src={searchIcon} alt="search" style={{ marginLeft: 10 }} />
               <input
-                placeholder="Search" onChange={(e) => handleSearch(e)}
+                placeholder="Search" onChange={(e) => setSearch(e.target.value)}
                 style={{ width: "325px", height: "40px", border: "none", outline: "none", paddingLeft: 10 }} />
             </form>}
         </>
